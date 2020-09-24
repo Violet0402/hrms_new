@@ -16,34 +16,33 @@ import java.util.Date;
 @Slf4j
 @Data
 @Component
-@ConfigurationProperties(prefix = "sumaojin.jwt")
 public class JwtUtils {
 
-    private String secret;
-    private long expire;
-    private String header;
+    private static String SECRET = "f4e2e52034348f86b67cde581c0f9eb5";
+    private static long EXPIRE = 604800;
+    private static String HEADER = "Authorization";
 
     /**
      * 生成jwt token
      */
-    public String generateToken(long userId) {
+    public static String generateToken(Integer userId) {
         Date nowDate = new Date();
         //过期时间
-        Date expireDate = new Date(nowDate.getTime() + expire * 1000);
+        Date expireDate = new Date(nowDate.getTime() + EXPIRE * 1000);
 
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(userId+"")
                 .setIssuedAt(nowDate)
                 .setExpiration(expireDate)
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
     }
 
-    public Claims getClaimByToken(String token) {
+    public static Claims getClaimByToken(String token) {
         try {
             return Jwts.parser()
-                    .setSigningKey(secret)
+                    .setSigningKey(SECRET)
                     .parseClaimsJws(token)
                     .getBody();
         }catch (Exception e){
@@ -56,7 +55,7 @@ public class JwtUtils {
      * token是否过期
      * @return  true：过期
      */
-    public boolean isTokenExpired(Date expiration) {
+    public static boolean isTokenExpired(Date expiration) {
         return expiration.before(new Date());
     }
 }

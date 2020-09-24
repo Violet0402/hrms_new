@@ -13,6 +13,7 @@ spring:
 #  main:
 #    allow-bean-definition-overriding: true
 
+
 server:
   port: 9999
 
@@ -21,6 +22,14 @@ mybatis:
 
 sumaojin:
   jwt:
-    secret: f4e2e52034348f86b67cde581c0f9eb5
-    expire: 604800
-    header: Authorization
+    SECRET: f4e2e52034348f86b67cde581c0f9eb5
+    EXPIRE: 604800
+    HEADER: Authorization
+logging:
+  level:
+    com:
+      sumaojin:
+        suzhenping:
+          hrms:
+            mapper: DEBUG
+

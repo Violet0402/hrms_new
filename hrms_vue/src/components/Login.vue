@@ -1,136 +1,96 @@
 <template>
-    <div id="login">
-      <div class="loginToHome">
-        <el-form
-          ref="form"
-          :model="form"
-          :rules="ruleForm"
-          status-icon
-          label-width="80px"
-          class="loginForm"
-        >
-          <h3>登陆</h3>
-          <el-form-item
-            label="用户名"
-            prop="name"
-          >
-            <el-input
-              type="text"
-              v-model="form.name"
-              auto-complete="off"
-              placeholder="请输入用户名"
-            ></el-input>
-          </el-form-item>
-          <el-form-item
-            label="密码"
-            prop="password"
-          >
-            <el-input
-              type="password"
-              v-model="form.password"
-              auto-complete="off"
-              placeholder="请输入密码"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              class="homeBut"
-              type="primary"
-              plain
-              @click="submit"
-              :loading="logining"
-            >登录</el-button>
-            <el-button
-              class="loginBut"
-              type="primary"
-              plain
-              @click="resetForm()"
-            >重置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+  <body id="poster">
+    <div>
+      <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
+        <h3 class="login-title">欢迎登录</h3>
+        <el-form-item label="账号" prop="username">
+          <el-input type="text" placeholder="请输入账号" v-model="form.username"/>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" placeholder="请输入密码" v-model="form.password"/>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" v-on:click="onSubmit()">登录</el-button>
+        </el-form-item>
+      </el-form>
+
+      <el-dialog
+        title="温馨提示"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :before-close="handleClose">
+        <span>请输入账号和密码</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
+  </body>
 </template>
 
 <script>
-    export default {
-        name:"Login",
-        data() {
-            return {
-                logining: false,
-                form: {
-                    name: 'admin',
-                    password: '123456'
-                },
-                ruleForm: {
-                    name: [
-                        { required: true, message: '请输入账号', trigger: 'blur' },
-                    ],
-                    password: [
-                        { required: true, message: '请输入密码', trigger: 'blur' },
-                    ]
-                }
-            }
+  export default {
+    name: "Login",
+    data() {
+      return {
+
+        form: {
+          username: '',
+          password: ''
         },
-        methods: {
-            submit(event) {
-                this.$refs.form.validate((valid) => {
-                    if (valid) {
-                        this.logining = true;
-                        if (this.form.name === 'admin' &&
-                            this.form.password === '123456') {
-                            this.logining = false;
-                            sessionStorage.setItem('user', this.form.name);
-                            this.$router.push({ name: 'home' });
-                        } else {
-                            this.logining = false;
-                            this.$alert('name or password wrong!', 'info', {
-                                confirmButtonText: 'ok'
-                            })
-                        }
-                    } else {
-                        console.log('error submit!');
-                        return false;
-                    }
-                })
-            },
-            resetForm() {
-                this.$refs.form.resetFields();
-            }
+
+        // 表单验证，需要在 el-form-item 元素中增加 prop 属性
+        rules: {
+          username: [
+            {required: true, message: '账号不可为空', trigger: 'blur'}
+          ],
+          password: [
+            {required: true, message: '密码不可为空', trigger: 'blur'}
+          ]
         },
-        created() {
-            console.log(this)
-        }
+
+        // 对话框显示和隐藏
+        dialogVisible: false
+      }
+    },
+    methods: {
+      onSubmit() {
+        let _this = this;
+        this.$http.post("http://localhost:9999/account/login",this.$qs.stringify(this.form)).then((res)=>{
+            console.log(res.data)
+        })
+      }
     }
+  }
 </script>
 
 <style scoped>
-  .loginToHome {
-    position: absolute;
-    left: 0px;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    width: 400px;
-    height: 260px;
-    -webkit-border-radius: 5px;
+  #poster {
+    background:url("../assets/0C7F0463A354C4D327B5173468C76BDA.jpg") no-repeat;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    position: fixed;
+  }
+  body{
+    margin: 0px;
+    padding: 0;
+  }
+  .login-box {
+    border: 1px solid #DCDFE6;
+    width: 350px;
+    margin: 180px auto;
+    padding: 35px 35px 15px 35px;
     border-radius: 5px;
-    background: #fff;
-    border: 1px solid #dcdfe6;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    box-shadow: 0 0 25px #909399;
   }
-  .loginForm {
+
+  .login-title {
     text-align: center;
-    padding-top: 15px;
-    padding-right: 30px;
-    top: 10px;
-  }
-  .homeBut {
-    position: absolute;
-    left: 0px;
-  }
-  .loginBut {
-    position: absolute;
-    right: 0px;
+    margin: 0 auto 40px auto;
+    color: #303133;
   }
 </style>
