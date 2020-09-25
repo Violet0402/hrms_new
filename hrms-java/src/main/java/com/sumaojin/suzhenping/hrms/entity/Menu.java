@@ -1,8 +1,8 @@
 package com.sumaojin.suzhenping.hrms.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,26 +15,20 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author SMJ
- * @since 2020-09-24
+ * @since 2020-09-25
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Identity对象", description="")
-public class Identity implements Serializable {
+@ApiModel(value="Menu对象", description="")
+public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId("id")
     private Integer id;
 
-    @TableField("username")
-    private String username;
-
-    @TableField("password")
-    private String password;
-
-    @TableField("uid")
-    private Integer uId;
+    @TableField("menuName")
+    private String menuName;
 
 
 }

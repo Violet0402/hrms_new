@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -44,7 +46,8 @@ public class IdentityController {
             return new CommonResult<>(400, "账号或密码不正确");
         }
         String token = JwtUtils.generateToken(account.getId());
-        response.setHeader("token", token);
-        return new CommonResult(null);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", token);
+        return new CommonResult(map);
     }
 }

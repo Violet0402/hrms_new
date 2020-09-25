@@ -29,16 +29,16 @@
 </template>
 
 <script>
+    import { mapMutations } from 'vuex';
   export default {
+      inject:['reload'],
     name: "Login",
     data() {
       return {
-
         form: {
           username: '',
           password: ''
         },
-
         // 表单验证，需要在 el-form-item 元素中增加 prop 属性
         rules: {
           username: [
@@ -55,10 +55,34 @@
     },
     methods: {
       onSubmit() {
-        let _this = this;
-        this.$http.post("http://localhost:9999/account/login",this.$qs.stringify(this.form)).then((res)=>{
-            console.log(res.data)
-        })
+          if (this.form.username == "" || this.form.password == ""){
+              this.$message({
+                  showClose: true,
+                  message: '账号或密码不能为空',
+                  type: 'error'
+              });
+          }else {
+              this.$http.post("http://localhost:9999/account/login",this.$qs.stringify(this.form)).then((res)=>{
+                  if (res.data.code == 200){
+                      window.localStorage.setItem("token", res.data.data.token);
+                      window.location.pathname = "/";
+                      this.$message({
+                          showClose: true,
+                          message: '登陆成功',
+                          type: 'success'
+                      });
+                      this.reload();
+                      this.$router.push("/home")
+                  }else{
+                      this.$message({
+                          showClose: true,
+                          message: '账号或密码错误',
+                          type: 'error'
+                      });
+                      this.reload();
+                  }
+              })
+          }
       }
     }
   }

@@ -7,12 +7,31 @@ import App from './App'
 import router from './router'
 import axios from "axios";
 import qs from "qs";
+import http from "./http"
 
 Vue.prototype.$qs=qs;
 Vue.prototype.$http=axios;
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 
+
+router.beforeEach((to, from, next) =>{
+  if (to.path == "/login"){
+    next();
+  }
+  if (window.localStorage.getItem("token")){
+    next();
+  }else{
+    next({path:"login"})
+  }
+/*  if (to.name == "login"){
+    next();
+  }/!*else if (window.localStorage.getItem("token")){
+    next();
+  }*!/else{
+    next({path:"/login"})
+  }*/
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

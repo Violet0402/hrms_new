@@ -1,5 +1,8 @@
 package com.sumaojin.suzhenping.hrms.interceptor;
 
+import com.sumaojin.suzhenping.hrms.util.JwtUtils;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,8 +21,13 @@ public class MyInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println(request.getContextPath());
-        System.out.println(request.getServletPath());
-        return false;
+        return true;
+        /*try{
+            String token = request.getHeader("token");
+            Claims claimByToken = JwtUtils.getClaimByToken(token);
+        }catch (Exception e){
+
+        }*/
+
     }
 }
