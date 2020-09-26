@@ -30,5 +30,9 @@ public class Menu implements Serializable {
     @TableField("menuName")
     private String menuName;
 
+    @TableField("style")
+    private String style;
 
+    @TableField("router")
+    private String router;
 }

@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api':{
-        target:"http://localhost:9999/",
-        changeOrigin: true,
-        pathRewrite:{
-          '^/api':""
+      '/apis': {
+        target: "http://localhost:9999/", // 目标地址
+        changeOrigin: true, // 是否跨域
+        pathRewrite: { // 重定向地址
+          '^/apis': ''
         }
       }
     },

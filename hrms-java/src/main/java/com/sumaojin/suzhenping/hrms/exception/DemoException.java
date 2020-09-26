@@ -1,3 +1,4 @@
+/*
 package com.sumaojin.suzhenping.hrms.exception;
 
 import com.sumaojin.suzhenping.hrms.result.CommonResult;
@@ -42,3 +43,4 @@ public class DemoException {
         return new CommonResult(e.getMessage());
     }
 }
+*/

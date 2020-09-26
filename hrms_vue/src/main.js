@@ -43,9 +43,10 @@ axios.interceptors.request.use((request) =>{
   return request;
 })
 
-axios.interceptors.response.use((response) =>{
-  response.headers.add("Access-Control-Allow-Origin", "*");
-})
+/*axios.interceptors.response.use((response) =>{
+  response.headers
+  /!*response.headers.add("Access-Control-Allow-Origin", "*");*!/
+})*/
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

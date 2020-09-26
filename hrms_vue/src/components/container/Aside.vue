@@ -23,7 +23,7 @@
         methods: {
           change(router){
               this.$router.push("/home/"+router);
-          }
+          },
         },
         data(){
             return{

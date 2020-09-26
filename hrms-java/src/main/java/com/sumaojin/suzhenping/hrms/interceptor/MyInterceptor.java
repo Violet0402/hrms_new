@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,8 +27,21 @@ public class MyInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        /*return true;*/
         String token = request.getHeader("token");
         try{
+            Claims claim = JwtUtils.getClaimByToken(token);
+            Date date = claim.getExpiration();
+            if (JwtUtils.isTokenExpired(date)){
+                renderJson(response, new CommonResult(401, "token校验失败"));
+                return false;
+            }
+            return true;
+        }catch (Exception e){
+            renderJson(response, new CommonResult(401, "token校验失败"));
+            return false;
+        }
+        /*try{
             Claims claim = JwtUtils.getClaimByToken(token);
             Date date = claim.getExpiration();
             if (JwtUtils.isTokenExpired(date)){
@@ -44,8 +58,9 @@ public class MyInterceptor implements HandlerInterceptor {
             writer.write(JSONUtil.toJsonStr(new CommonResult(401,"token校验失败")));
             return false;
         }
-        return true;
+        return true;*/
     }
+
 
     public void renderJson(HttpServletResponse response, Object jsonObject){
         try {
@@ -56,7 +71,7 @@ public class MyInterceptor implements HandlerInterceptor {
             PrintWriter writer = response.getWriter();
             writer.write(JSONUtil.toJsonStr(new CommonResult(401,"token校验失败")));
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
 
     }
