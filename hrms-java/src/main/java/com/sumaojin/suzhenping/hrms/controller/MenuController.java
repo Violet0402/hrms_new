@@ -5,11 +5,7 @@ import com.sumaojin.suzhenping.hrms.entity.Menu;
 import com.sumaojin.suzhenping.hrms.result.CommonResult;
 import com.sumaojin.suzhenping.hrms.service.IMenuService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,6 +18,7 @@ import java.util.List;
  * @author SMJ
  * @since 2020-09-25
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
@@ -31,7 +28,6 @@ public class MenuController {
     @ApiOperation(value = "获取所有菜单", notes = "获取所有菜单")
     @GetMapping(value = "/findAll", produces = "application/json;charset=utf-8")
     public CommonResult<List<Menu>> findAll(){
-        System.out.println("到这了");
         List<Menu> menuList = menuService.list();
 
         return new CommonResult<>(menuList);

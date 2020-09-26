@@ -53,6 +53,9 @@
         dialogVisible: false
       }
     },
+    activated(){
+      this.reload();
+    },
     methods: {
       onSubmit() {
           if (this.form.username == "" || this.form.password == ""){

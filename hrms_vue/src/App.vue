@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <router-view v-if="isRouterAlive"></router-view>
+    <router-view :key="$router.fullPath" v-if="isRouterAlive"></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
+    name: 'App',
     provide(){
       return{
           reload:this.reload

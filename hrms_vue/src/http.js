@@ -2,6 +2,7 @@ import axios from "axios";
 import router from "./router"
 import Vue from "vue";
 
+
 /*axios.interceptors.request.use(config =>{
   console.log(config);
   if (config.url == "http://localhost:9999/account/login"){

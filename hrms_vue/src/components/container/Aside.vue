@@ -8,8 +8,8 @@
             text-color="#fff"
             active-text-color="#ffd04b">
 
-            <el-menu-item :index="(index+1+'')" @click="change(index+1)" v-for="(item,index) in menuList">
-              <i class="el-icon-menu"></i>
+            <el-menu-item :index="(index+1+'')" @click="change(item.router)" v-for="(item,index) in menuList">
+              <i :class="item.style"></i>
               <span slot="title">{{item.menuName}}</span>
             </el-menu-item>
           </el-menu>
@@ -21,13 +21,13 @@
     export default {
         name: "Aside",
         methods: {
-          change(index){
-              this.$router.push("/home/"+index);
+          change(router){
+              this.$router.push("/home/"+router);
           }
         },
         data(){
             return{
-                menuList:[{id:"", menuName:""}],
+                menuList:[{id:"", menuName:"",style:"", router:""}],
             }
         },
         created() {

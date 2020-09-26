@@ -10,6 +10,7 @@ import com.sumaojin.suzhenping.hrms.service.IIdentityService;
 import com.sumaojin.suzhenping.hrms.util.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,6 +29,7 @@ import java.util.Map;
  * @author SMJ
  * @since 2020-09-24
  */
+@CrossOrigin
 @Api(tags = "Account", description = "账户", value = "账户")
 @RestController
 @RequestMapping("/account")
@@ -40,8 +42,6 @@ public class IdentityController {
     @PostMapping(value = "/login", produces = "application/json;charset=utf-8")
     public CommonResult<Identity> login(LoginDTO dto, HttpServletResponse response){
         Identity account = iIdentityService.getOne(new QueryWrapper<Identity>().eq("username", dto.getUsername()));
-        System.out.println(account);
-        System.out.println(dto);
         if (account == null || !account.getPassword().equals(dto.getPassword())){
             return new CommonResult<>(400, "账号或密码不正确");
         }

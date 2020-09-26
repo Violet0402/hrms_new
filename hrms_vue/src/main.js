@@ -7,7 +7,6 @@ import App from './App'
 import router from './router'
 import axios from "axios";
 import qs from "qs";
-import http from "./http"
 
 Vue.prototype.$qs=qs;
 Vue.prototype.$http=axios;
@@ -24,13 +23,28 @@ router.beforeEach((to, from, next) =>{
   }else{
     next({path:"login"})
   }
-/*  if (to.name == "login"){
-    next();
-  }/!*else if (window.localStorage.getItem("token")){
-    next();
-  }*!/else{
-    next({path:"/login"})
-  }*/
+});
+
+const service = axios.create({
+  baseURL:"/api",
+  timeout:30000,
+  headers:{
+
+  }
+})
+
+axios.interceptors.request.use((request) =>{
+  if (request.url == 'http://localhost:9999/account/login'){
+    return request;
+  }
+  if (window.localStorage.getItem("token")) {
+    request.headers.token = window.localStorage.getItem("token");
+  }
+  return request;
+})
+
+axios.interceptors.response.use((response) =>{
+  response.headers.add("Access-Control-Allow-Origin", "*");
 })
 /* eslint-disable no-new */
 new Vue({
