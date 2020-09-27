@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/apis': {
+/*      '/apis': {
         target: "http://localhost:9999/", // 目标地址
         changeOrigin: true, // 是否跨域
         pathRewrite: { // 重定向地址
           '^/apis': ''
         }
-      }
+      }*/
     },
 
     // Various Dev Server settings
@@ -28,7 +28,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

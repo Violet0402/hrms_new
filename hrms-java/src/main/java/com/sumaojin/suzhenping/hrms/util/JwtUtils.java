@@ -19,7 +19,7 @@ import java.util.Date;
 public class JwtUtils {
 
     private static String SECRET = "f4e2e52034348f86b67cde581c0f9eb5";
-    private static long EXPIRE = 604800;
+    private static long EXPIRE = 86400;//86400  604800
     private static String HEADER = "Authorization";
 
     /**

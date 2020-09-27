@@ -5,7 +5,7 @@ import Home from "../components/Home";
 import Index from "../components/container/Index";
 import JobRequire from "../components/container/JobRequire";
 import InterviewM from "../components/container/InterviewM";
-import JoinManager from "../components/container/JoinManager"
+import JoinManager from "../components/container/JoinManager";
 
 Vue.use(Router)
 

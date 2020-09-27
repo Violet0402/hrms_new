@@ -1,7 +1,8 @@
 <template>
   <body id="poster">
     <div>
-      <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
+      <el-form
+        ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
         <h3 class="login-title">欢迎登录</h3>
         <el-form-item label="账号" prop="username">
           <el-input type="text" placeholder="请输入账号" v-model="form.username"/>
