@@ -65,7 +65,7 @@
                   type: 'error'
               });
           }else {
-              this.$http.post("http://localhost:9999/account/login",this.$qs.stringify(this.form)).then((res)=>{
+              this.$http.post("http://localhost:9999/account/login",this.$qs.stringify(this.form)).then(( res )=>{
                   if (res.data.code == 200){
                       window.localStorage.setItem("token", res.data.data.token);
                       window.location.pathname = "/";
@@ -75,7 +75,7 @@
                           type: 'success'
                       });
                       this.reload();
-                      this.$router.push("/home")
+                      this.$router.push("/home");
                   }else{
                       this.$message({
                           showClose: true,
