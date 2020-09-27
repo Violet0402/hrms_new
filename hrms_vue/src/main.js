@@ -25,14 +25,6 @@ router.beforeEach((to, from, next) =>{
   }
 });
 
-const service = axios.create({
-  baseURL:"/api",
-  timeout:30000,
-  headers:{
-
-  }
-})
-
 axios.interceptors.request.use((request) =>{
   if (request.url == 'http://localhost:9999/account/login'){
     return request;
@@ -43,10 +35,14 @@ axios.interceptors.request.use((request) =>{
   return request;
 })
 
-/*axios.interceptors.response.use((response) =>{
-  response.headers
-  /!*response.headers.add("Access-Control-Allow-Origin", "*");*!/
-})*/
+axios.interceptors.response.use((response) =>{
+  if (response.data.code == 401){
+    window.localStorage.removeItem("token");
+    router.replace({path:"/login"})
+  }
+  return response;
+}, error => {
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -33,6 +33,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedMethods("GET","HEAD","POST","PUT","DELETE","OPTIONS")
                 .allowCredentials(true)
                 .maxAge(3600)
-                .allowedHeaders("*");
+                .allowedHeaders("*")
+                .exposedHeaders("token");//如果它不设置预期的请求头部参数key值的话，ajax请求头部就没办法正确解析，也就是token解析不出来);
     }
 }

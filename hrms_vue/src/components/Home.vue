@@ -24,9 +24,10 @@
 
 <style scoped>
   .el-header {
-    background-color: #B3C0D1;
+    background-color: #545c64;
     color: #333;
-    line-height: 60px;
+    line-height: 23px;
+    padding: 0;
   }
 
   .el-aside {

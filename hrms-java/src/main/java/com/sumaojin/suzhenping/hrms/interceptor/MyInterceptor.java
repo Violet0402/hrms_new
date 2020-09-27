@@ -27,9 +27,15 @@ public class MyInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        /*return true;*/
+        if (request.getMethod().equals("OPTIONS")){
+            return true;
+        }
         String token = request.getHeader("token");
         try{
+            if (token == null){
+                renderJson(response, new CommonResult(401, "token校验失败"));
+                return false;
+            }
             Claims claim = JwtUtils.getClaimByToken(token);
             Date date = claim.getExpiration();
             if (JwtUtils.isTokenExpired(date)){
@@ -41,31 +47,12 @@ public class MyInterceptor implements HandlerInterceptor {
             renderJson(response, new CommonResult(401, "token校验失败"));
             return false;
         }
-        /*try{
-            Claims claim = JwtUtils.getClaimByToken(token);
-            Date date = claim.getExpiration();
-            if (JwtUtils.isTokenExpired(date)){
-                response.setContentType("application/json");
-                response.setCharacterEncoding("utf-8");
-                PrintWriter writer = response.getWriter();
-                writer.write(JSONUtil.toJsonStr(new CommonResult(401,"token校验失败")));
-                return false;
-            }
-        }catch (Exception e){
-            response.setContentType("application/json");
-            response.setCharacterEncoding("utf-8");
-            PrintWriter writer = response.getWriter();
-            writer.write(JSONUtil.toJsonStr(new CommonResult(401,"token校验失败")));
-            return false;
-        }
-        return true;*/
     }
-
 
     public void renderJson(HttpServletResponse response, Object jsonObject){
         try {
-            response.addHeader("Access-Control-Allow-Origin","*");
-            response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            /*response.addHeader("Access-Control-Allow-Origin","*");*/
+            //response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             PrintWriter writer = response.getWriter();

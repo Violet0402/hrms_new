@@ -1,13 +1,18 @@
 <template>
     <div>
       <el-row>
-        <el-col :span="4"><div>
+        <el-col :span="5"><div>
           <el-image
             style="width: 200px; height: 60px"
-            :src="require('../../assets/AEB12CB42E9D5727296460A3A3A5B5B5.jpg')"
+            :src="require('../../assets/QQ图片20200927122122.jpg')"
             :fit="fit"></el-image>
         </div></el-col>
-        <el-col :span="2" push="18"><div>
+        <el-col :span="4" push="6">
+            <div>
+              <h1 style="color: #DCDFE6">人资资源管理后台</h1>
+            </div>
+        </el-col>
+        <el-col :span="2" push="14"><div>
           <el-dropdown>
               <span class="el-dropdown-link">
                 <div style="margin-top: 10px; margin-right: 10px">
@@ -34,13 +39,13 @@
         methods:{
           logout(){
             console.log(this)
-            window.localStorage.clear();
-            this.$router.push("/login");
+            window.localStorage.removeItem("token");
+            this.$router.replace("/login");
           },
         },
     }
 </script>
 
-<style scoped>
+<style >
 
 </style>
