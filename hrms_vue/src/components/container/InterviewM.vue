@@ -1,15 +1,37 @@
 <template>
     <div>
-      <h1>面试管理内容</h1>
+      <el-container>
+        <el-header>Header</el-header>
+        <el-main>Main</el-main>
+        <el-footer>Footer</el-footer>
+      </el-container>
     </div>
 </template>
 
 <script>
     export default {
-        name: "InterviewM"
+        name: "InterviewM",
+        methods:{
+            add(){
+                this.$router.push("/home/interviewM/add")
+            }
+        }
     }
 </script>
 
 <style scoped>
+  .el-header,footer{
+    background-color: #DCDFE6;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
 
+  .el-main {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+    height: 73vh;
+  }
 </style>

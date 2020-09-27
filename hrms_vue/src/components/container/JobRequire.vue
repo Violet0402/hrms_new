@@ -1,23 +1,18 @@
 <template>
     <div>
-      <el-table
-        :data="tableData"
-        style="width: 100%">
-        <el-table-column
-          prop="department"
-          label="部门"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="申请人"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="需求岗位">
-        </el-table-column>
-      </el-table>
+      <el-container>
+        <el-header>Header</el-header>
+        <el-main>
+          <div>
+            <el-table class="tableBox" border :data="tableData"><!-- :data="tableData" border style="width: 100%" ref="multipleTable" @select-change="handleSelectionChange"-->
+              <el-table-column type="selection"  width="55"></el-table-column>
+              <el-table-column prop="department" label="部门" width="120"></el-table-column>
+              <el-table-column prop="proposer" label="申请人" width="120"></el-table-column>
+            </el-table>
+          </div>
+        </el-main>
+        <el-footer>Footer</el-footer>
+      </el-container>
     </div>
 </template>
 
@@ -26,28 +21,25 @@
         name: "JobRequire",
       data() {
         return {
-          tableData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }]
+          tableData:[],
         }
       }
     }
 </script>
 
 <style scoped>
+  .el-header,footer{
+    background-color: #DCDFE6;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
 
+  .el-main {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+    height: 73vh;
+  }
 </style>

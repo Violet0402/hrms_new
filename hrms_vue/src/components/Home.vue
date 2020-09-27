@@ -35,7 +35,7 @@
     color: #333;
     text-align: center;
     line-height: 200px;
-    height:100vh;
+    height:90vh;
   }
 
   .el-main {
