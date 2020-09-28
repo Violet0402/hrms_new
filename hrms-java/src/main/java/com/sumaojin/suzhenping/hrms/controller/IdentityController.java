@@ -45,7 +45,7 @@ public class IdentityController {
         if (account == null || !account.getPassword().equals(dto.getPassword())){
             return new CommonResult<>(400, "账号或密码不正确");
         }
-        String token = JwtUtils.generateToken(account.getId());
+        String token = JwtUtils.generateToken(account.getUId());
         HashMap<String, String> map = new HashMap<>();
         map.put("token", token);
         return new CommonResult(map);
