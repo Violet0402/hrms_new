@@ -42,7 +42,10 @@ axios.interceptors.response.use((response) =>{
   }
   return response;
 }, error => {
-  router.replace({path:"/login"})
+  if (window.localStorage.getItem("token")){
+    window.localStorage.removeItem("token")
+  }
+  router.replace({path:"login"})
 })
 /* eslint-disable no-new */
 new Vue({

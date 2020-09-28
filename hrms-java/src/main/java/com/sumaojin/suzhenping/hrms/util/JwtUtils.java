@@ -9,6 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * jwt工具类
@@ -29,7 +31,7 @@ public class JwtUtils {
         Date nowDate = new Date();
         //过期时间
         Date expireDate = new Date(nowDate.getTime() + EXPIRE * 1000);
-
+        Map<String, String> claims = new HashMap<>();
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(userId+"")

@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -24,12 +26,12 @@ import java.util.List;
 public class MenuController {
     @Resource
     private IMenuService menuService;
+    /*@Resource
+    private */
 
     @ApiOperation(value = "获取所有菜单", notes = "获取所有菜单")
     @GetMapping(value = "/findAll", produces = "application/json;charset=utf-8")
-    public CommonResult<List<Menu>> findAll(){
-        List<Menu> menuList = menuService.list();
-
-        return new CommonResult<>(menuList);
+    public CommonResult<List<Menu>> findAll(HttpServletRequest request){
+        return menuService.findAll(request);
     }
 }

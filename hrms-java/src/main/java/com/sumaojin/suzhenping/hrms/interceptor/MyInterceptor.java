@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -42,6 +43,9 @@ public class MyInterceptor implements HandlerInterceptor {
                 renderJson(response, new CommonResult(401, "token校验失败"));
                 return false;
             }
+            String id = claim.getSubject();
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", id);
             return true;
         }catch (Exception e){
             renderJson(response, new CommonResult(401, "token校验失败"));
