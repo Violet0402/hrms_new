@@ -1,9 +1,11 @@
 <template>
     <div>
       <el-container>
-        <el-header>Header</el-header>
+        <el-header><a href="javascript:;" @click="test">Header</a> </el-header>
         <el-main>
           <el-table
+            border
+            stripe
             ref="multipleTable"
             :data="tableData"
             tooltip-effect="dark"
@@ -14,35 +16,55 @@
               width="55">
             </el-table-column>
             <el-table-column
-              label="日期"
-              width="120">
+            prop="department"
+            label="部门"
+            width="100">
+            </el-table-column>
+            <el-table-column
+              prop="proposer"
+              label="申请人"
+            width="100">
+            </el-table-column>
+            <el-table-column
+              prop="post"
+              label="岗位">
+            </el-table-column>
+            <el-table-column
+              prop="nums"
+              label="需求人数"
+            width="55">
+            </el-table-column>
+            <el-table-column
+              prop="requirement"
+              label="岗位需求">
+            </el-table-column>
+            <el-table-column
+            prop="education"
+            label="学历"
+            width="100">
+            </el-table-column>
+            <el-table-column
+            prop="major"
+            label="专业">
+            </el-table-column>
+            <el-table-column
+              label="希望到岗时间"
+              prop="date"
+              show-overflow-tooltip>
               <template slot-scope="scope">{{ scope.row.date }}</template>
             </el-table-column>
-            <el-table-column
-              prop="name"
-              label="姓名"
-              width="120">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="地址"
-              show-overflow-tooltip>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              </template>
             </el-table-column>
           </el-table>
-          <!--<el-table  border :data="tableData">
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="department" label="部门"></el-table-column>
-            <el-table-column prop="proposer" label="申请人"></el-table-column>
-            <el-table-column prop="post" label="岗位"></el-table-column>
-            <el-table-column prop="nums" label="需求人数"></el-table-column>
-            <el-table-column prop="requirement" label="岗位需求"></el-table-column>
-            <el-table-column prop="education" label="学历"></el-table-column>
-            <el-table-column prop="major" label="专业"></el-table-column>
-            <el-table-column prop="date" label="希望到岗时间" type=""></el-table-column>
-            <el-table-column label="操作" width="180">
-
-            </el-table-column>
-          </el-table>-->
         </el-main>
         <el-footer>Footer</el-footer>
       </el-container>
@@ -54,7 +76,9 @@
         name: "JobRequire",
         data() {
         return {
-          tableData:[],
+            tableData:[
+
+            ],
           }
         },
         methods: {
@@ -66,6 +90,15 @@
                 } else {
                     this.$refs.multipleTable.clearSelection();
                 }
+            },
+          test(){
+              console.log(this.multipleSelection[0].department)
+          },
+            handleEdit(index, row) {
+              console.log(index, row);
+            },
+            handleDelete(index, row) {
+              console.log(index, row);
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;

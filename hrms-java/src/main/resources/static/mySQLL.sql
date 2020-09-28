@@ -16,6 +16,20 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`hrms` /*!40100 DEFAULT CHARACTER SET ut
 
 USE `hrms`;
 
+/*Table structure for table `department` */
+
+DROP TABLE IF EXISTS `department`;
+
+CREATE TABLE `department` (
+  `id` int(64) NOT NULL AUTO_INCREMENT,
+  `department` varchar(40) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+/*Data for the table `department` */
+
+insert  into `department`(`id`,`department`) values (1,'人事行政部'),(2,'运营部'),(3,'采购部'),(4,'技术中心部'),(5,'物流部'),(6,'客服部'),(7,'财务部');
+
 /*Table structure for table `employee` */
 
 DROP TABLE IF EXISTS `employee`;
@@ -43,13 +57,64 @@ CREATE TABLE `identity` (
   `id` int(64) NOT NULL AUTO_INCREMENT,
   `username` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
   `password` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
-  `u_id` int(64) DEFAULT NULL,
+  `uid` int(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `identity` */
 
-insert  into `identity`(`id`,`username`,`password`,`u_id`) values (1,'admin','123456',1);
+insert  into `identity`(`id`,`username`,`password`,`uid`) values (1,'admin','123456',1);
+
+/*Table structure for table `menu` */
+
+DROP TABLE IF EXISTS `menu`;
+
+CREATE TABLE `menu` (
+  `id` int(64) NOT NULL AUTO_INCREMENT,
+  `menuName` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
+  `style` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
+  `router` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+/*Data for the table `menu` */
+
+insert  into `menu`(`id`,`menuName`,`style`,`router`) values (1,'首页','el-icon-s-home','index'),(2,'岗位需求','el-icon-circle-plus','jobRequire'),(3,'面试管理','el-icon-reading','interviewM'),(4,'入职管理','el-icon-box','joinManager');
+
+/*Table structure for table `requirement` */
+
+DROP TABLE IF EXISTS `requirement`;
+
+CREATE TABLE `requirement` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `departmentId` int(20) DEFAULT NULL,
+  `proposer` int(20) DEFAULT NULL,
+  `post` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
+  `nums` int(20) DEFAULT NULL,
+  `requirement` varchar(500) COLLATE utf8mb4_bin DEFAULT NULL,
+  `education` varchar(40) COLLATE utf8mb4_bin DEFAULT NULL,
+  `major` varchar(40) COLLATE utf8mb4_bin DEFAULT NULL,
+  `hopeTime` date DEFAULT NULL,
+  `createTime` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+/*Data for the table `requirement` */
+
+insert  into `requirement`(`id`,`departmentId`,`proposer`,`post`,`nums`,`requirement`,`education`,`major`,`hopeTime`,`createTime`) values (1,1,1,'java开发',3,'技术好','本科','计算机','2020-09-25','2020-09-16');
+
+/*Table structure for table `role` */
+
+DROP TABLE IF EXISTS `role`;
+
+CREATE TABLE `role` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `role` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
+  `permission` int(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+/*Data for the table `role` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
