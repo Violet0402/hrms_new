@@ -24,4 +24,15 @@ public  class Utils {
         }
         return null;
     }
+
+    public static Timestamp stringToTimestap(String timeStr){
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = simpleDateFormat.parse(timeStr);
+            return new Timestamp(date.getTime()+86400000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

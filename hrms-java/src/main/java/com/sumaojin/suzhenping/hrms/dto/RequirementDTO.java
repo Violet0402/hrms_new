@@ -7,4 +7,7 @@ public class RequirementDTO {
     private String name;
     private Integer size = 5;
     private Integer currentPage = 1;
+    private String startTime;
+    private String endTime;
+    private String post;
 }

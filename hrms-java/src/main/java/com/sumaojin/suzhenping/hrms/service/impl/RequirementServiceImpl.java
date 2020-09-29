@@ -23,6 +23,8 @@ import com.sumaojin.suzhenping.hrms.vm.RequirementVM;
 import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -65,8 +67,16 @@ public class RequirementServiceImpl extends ServiceImpl<RequirementMapper, Requi
         Long userId = Long.parseLong((String) session.getAttribute("userId"));
         QueryWrapper<Requirement> queryWrapper = new QueryWrapper<>();
         Long roleId = employeeMapper.getRoleId(userId);
-        if (!roleId.equals(1)){
+        if (!roleId.equals(1L)){
             queryWrapper.eq("proposer", userId);
+        }
+        if (dto.getEndTime() != null && dto.getStartTime() != null){
+            Timestamp startTime = Utils.stringToTimestap(dto.getStartTime());
+            Timestamp endTime = Utils.stringToTimestap(dto.getEndTime());
+            queryWrapper.le("createTime", endTime).ge("createTime", startTime);
+        }
+        if (dto.getPost() != null){
+            queryWrapper.like("post", dto.getPost());
         }
         Page<Requirement> pageData = page(page, queryWrapper);
         Page<RequirementVM> vmData = new Page<>();
@@ -81,6 +91,7 @@ public class RequirementServiceImpl extends ServiceImpl<RequirementMapper, Requi
             RequirementVM vm = new RequirementVM();
             BeanUtils.copyProperties(r,vm);
             vm.setHopeTime(Utils.timeToString(r.getHopeTime()));
+            vm.setCreateTime(Utils.timeToString(r.getCreateTime()));
             for (Department d : departmentList){
                 if (d.getId().equals(r.getDepartmentId())){
                     vm.setDepartment(d.getDepartment());
@@ -111,7 +122,7 @@ public class RequirementServiceImpl extends ServiceImpl<RequirementMapper, Requi
         requirement.setProposer(userId);
         Long departmentId = employeeMapper.getDepartmentIdByUID(userId);
         requirement.setDepartmentId(departmentId);
-        requirement.setHopeTime(new Timestamp(Utils.stringToDate(dto.getHomeTime()).getTime()));
+        requirement.setHopeTime(Utils.stringToTimestap(dto.getHopeTime()));
         requirement.setCreateTime(new Timestamp(new Date().getTime()));
         boolean flag = save(requirement);
         return flag;

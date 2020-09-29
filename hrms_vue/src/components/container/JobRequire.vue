@@ -1,5 +1,70 @@
 <template>
     <div>
+      <el-dialog title="编辑申请" :visible.sync="editVisible">
+        <el-form :model="editData" ref="editData">
+          <el-form-item
+            label="岗位"
+            label-width="120px"
+            prop="post"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.post"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="需求人数"
+            label-width="120px"
+            prop="nums"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.nums"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="岗位需求"
+            label-width="120px"
+            prop="requirement"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.requirement"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="学历"
+            label-width="120px"
+            prop="education"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.education"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="专业"
+            label-width="120px"
+            prop="major"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.major"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="希望到岗日期"
+            label-width="120px">
+            <div class="block">
+              <el-date-picker
+                v-model="editData.hopeTime"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editConcel">取 消</el-button>
+          <el-button type="primary" @click="editRequirement">确 定</el-button>
+        </div>
+      </el-dialog>
+
       <el-dialog title="新增需求" :visible.sync="addRequirement">
         <el-form :model="addForm" ref="addForm">
           <el-form-item
@@ -52,7 +117,7 @@
             label-width="120px">
             <div class="block">
               <el-date-picker
-                v-model="addForm.homeTime"
+                v-model="addForm.hopeTime"
                 type="date"
                 placeholder="选择日期">
               </el-date-picker>
@@ -68,18 +133,30 @@
       <el-container>
         <el-header>
           <el-row>
-            <el-col :span="3"><div class="grid-content bg-purple"><el-button type="danger" plain round>批量删除</el-button></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light"><el-button @click="addRequirement = true" type="primary" plain round>新增需求</el-button></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><el-button type="danger" plain round @click="deletePatch">批量删除</el-button></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><el-button @click="addRequirement = true" type="primary" plain round>新增需求</el-button></div></el-col>
             <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light"></div></el-col>
+            <el-col :span="6"><div class="grid-content bg-purple">
+              <div class="block">
+                <el-date-picker
+                  v-model="value1"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="申请日期搜索"
+                  end-placeholder="申请日期搜索">
+                </el-date-picker>
+              </div>
+            </div></el-col>
             <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light"></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple-light"></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><el-input v-model="searchInput" placeholder="搜索岗位名称"></el-input></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple">
+              <el-button type="primary" round @click="getList">搜索</el-button>
+            </div></el-col>
           </el-row>
         </el-header>
         <el-main>
           <el-table
+            height="650px"
             stripe
             border
             ref="multipleTable"
@@ -88,31 +165,36 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-table-column
+            type="selection"
+            width="35">
+          </el-table-column>
+            <el-table-column
             type="index"
-            width="50">
+            width="35">
             </el-table-column>
             <el-table-column
-              type="selection"
-              width="55">
+              prop="createTime"
+              label="申请日期"
+              width="110">
             </el-table-column>
             <el-table-column
               prop="department"
               label="部门"
-            width="150">
+            width="140">
             </el-table-column>
             <el-table-column
               prop="proposer"
               label="申请人"
-            width="100">
+            width="85">
             </el-table-column>
             <el-table-column
               prop="post"
               label="岗位"
-            width="200">
+            width="160">
             </el-table-column>
             <el-table-column
               prop="nums"
-              label="需求人数"
+              label="人数"
             width="50">
             </el-table-column>
             <el-table-column
@@ -123,17 +205,17 @@
             <el-table-column
               prop="education"
               label="学历"
-            width="100">
+            width="55">
             </el-table-column>
             <el-table-column
               prop="major"
               label="专业"
-            width="150">
+            width="130">
             </el-table-column>
             <el-table-column
               prop="hopeTime"
               label="希望到岗日期"
-            width="150">
+            width="110">
             </el-table-column>
             <el-table-column
               label="操作"
@@ -177,18 +259,77 @@
               size:"",
               currentPage:"1",
               addRequirement:false,
+              editVisible:false,
+
+              searchInput:'',
+              editData:'',
+
+              value1:'',
               tableData:[{
 
               }],
               addForm:{
-                  post:"",nums:'',requirement:'', education:'',major:'',homeTime:''
+                  post:"",nums:'',requirement:'', education:'',major:'',hopeTime:''
               }
           }
         },
         methods: {
+            deletePatch(){
+                this.$confirm('此操作将删除所选, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let _this = this;
+                    this.$http.post("http://localhost:9999/requirement/deleteAll",this.multipleSelection).then(res =>{
+                        if(res.data.code == 200){
+                            _this.$message.success("删除成功");
+                        }else {
+                            _this.$message.error("删除失败")
+                        }
+                        _this.getList();
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+
+            },
+            editConcel(){
+                this.$message("已取消");
+                this.editVisible = false;
+            },
+            editRequirement(){
+                let _this = this;
+                this.$http.put("http://localhost:9999/requirement", this.editData).then(res =>{
+                    if (res.data.code == 200){
+                        _this.$message.success("编辑成功");
+                        _this.editVisible = false;
+                        _this.getList();
+                    }else{
+                        _this.$message.error("编辑失败");
+                    }
+                })
+            },
             getList(){
                 let _this = this;
-                this.$http.get("http://localhost:9999/requirement/findList").then((res) =>{
+                if (this.value1 == null){
+                    this.value1 = ''
+                }
+                if (this.searchInput == null){
+                    this.search = '';
+                }
+                this.$http.get("http://localhost:9999/requirement/findList",{
+                    params:{
+                        currentPage:_this.currentPage,
+                        size:_this.size,
+                        startTime:_this.value1[0],
+                        endTime: _this.value1[1],
+                        post:_this.searchInput
+                    }
+                }).then((res) =>{
                     _this.total = res.data.data.total
                     _this.tableData = res.data.data.records;
                 })
@@ -196,43 +337,44 @@
             add(){
                 let _this = this;
                 this.$http.post("http://localhost:9999/requirement",this.$qs.stringify(this.addForm)).then((res)=>{
-                    _this.addRequirement = false;
-                    _this.getList();
+                    if (res.data.code == 200){
+                        _this.$message({
+                            type:"success",
+                            message:"增加成功"
+                        });
+                        this.addRequirement = false;
+                        this.addForm.post = '';
+                        this.addForm.nums = '';
+                        this.addForm.requirement = '';
+                        this.addForm.education = '';
+                        this.addForm.major = '';
+                        this.hopeTime = '';
+                        _this.getList();
+                    }else{
+                        _this.$message({
+                            type:'error',
+                            message:"增加失败"
+                        })
+                    }
                 })
             },
             addConcel(){
-                  this.addRequirement = false;
-                  this.addForm.post = '';
+                this.$message("已取消");
+                this.addRequirement = false;
+                this.addForm.post = '';
                 this.addForm.nums = '';
                 this.addForm.requirement = '';
                 this.addForm.education = '';
                 this.addForm.major = '';
-                this.homeTime = '';
-                console.log(this.addForm)
+                this.hopeTime = '';
             },
             handleSizeChange(val) {
                 this.size = val;
-                let _this = this;
-                this.$http.get("http://localhost:9999/requirement/findList",{
-                    params:{
-                        size:_this.size
-                    }
-                }).then((res) =>{
-                    _this.total = res.data.data.total
-                    _this.tableData = res.data.data.records;
-                });
+                this.getList();
             },
             handleCurrentChange(val) {
                 this.currentPage = val;
-                let _this = this;
-                this.$http.get("http://localhost:9999/requirement/findList",{
-                    params:{
-                        currentPage:this.currentPage
-                    }
-                }).then((res) =>{
-                    _this.total = res.data.data.total
-                    _this.tableData = res.data.data.records;
-                })
+                this.getList()
             },
             toggleSelection(rows) {
                 if (rows) {
@@ -247,10 +389,29 @@
                 this.multipleSelection = val;
             },
             handleEdit(index, row) {
-                console.log(index, row);
+                this.editVisible = true;
+                this.editData = row;
             },
             handleDelete(index, row) {
-                console.log(index, row);
+                this.$confirm('此操作将删除该申请, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let _this = this;
+                    this.$http.delete("http://localhost:9999/requirement/"+row.id).then(res =>{
+                        _this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                        });
+                        _this.getList();
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             }
         },
         created() {
