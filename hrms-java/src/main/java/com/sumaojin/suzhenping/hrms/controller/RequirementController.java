@@ -38,6 +38,12 @@ public class RequirementController {
     @Resource
     private IRequirementService requirementService;
 
+    /**
+     * 按需查询
+     * @param dto
+     * @param request
+     * @return
+     */
     @GetMapping(value = "/findList", produces = "application/json;charset=utf-8")
     public CommonResult<IPage<RequirementVM>> findList(RequirementDTO dto, HttpServletRequest request){
         if (dto.getSize() == null){
@@ -49,6 +55,12 @@ public class RequirementController {
         return requirementService.findList(dto, request);
     }
 
+    /**
+     * 创建需求
+     * @param dto
+     * @param request
+     * @return
+     */
     @PostMapping(value = "", produces = "application/json;charset=utf-8")
     public CommonResult createRequirement(RequirementCreate dto, HttpServletRequest request){
         Boolean flag = requirementService.create(dto, request);
@@ -59,6 +71,11 @@ public class RequirementController {
         }
     }
 
+    /**
+     * 删除需求
+     * @param id
+     * @return
+     */
     @DeleteMapping(value = "/{id}", produces = "application/json;charset=utf-8")
     public CommonResult deleteRequirement(@PathVariable("id") Long id){
         boolean flag = requirementService.remove(new QueryWrapper<Requirement>().eq("id", id));
@@ -69,21 +86,36 @@ public class RequirementController {
         }
     }
 
+    /**
+     * 批量删除需求
+     * @param dtos
+     * @return
+     */
     @PostMapping(value = "/deleteAll", produces = "application/json;charset=utf-8")
     public CommonResult deleteSelect(@RequestBody String dtos){
-        List<RequirementSelectDTO> requirementSelectDTOS = JSONArray.parseArray(dtos, RequirementSelectDTO.class);
-        ArrayList<Long> lists = new ArrayList<>();
-        for (RequirementSelectDTO d : requirementSelectDTOS){
-            lists.add(d.getId());
-        }
-        boolean flag = requirementService.remove(new QueryWrapper<Requirement>().in("id", lists));
-        if(flag){
-            return new CommonResult(null);
+        if (dtos != null){
+            List<RequirementSelectDTO> requirementSelectDTOS = JSONArray.parseArray(dtos, RequirementSelectDTO.class);
+            ArrayList<Long> lists = new ArrayList<>();
+            for (RequirementSelectDTO d : requirementSelectDTOS){
+                lists.add(d.getId());
+            }
+            boolean flag = requirementService.remove(new QueryWrapper<Requirement>().in("id", lists));
+            if(flag){
+                return new CommonResult(null);
+            }else {
+                return new CommonResult(444, "删除失败");
+            }
         }else {
-            return new CommonResult(444, "删除失败");
+            return new CommonResult(null);
         }
+
     }
 
+    /**
+     * 修改需求
+     * @param dto
+     * @return
+     */
     @PutMapping(value = "", produces = "application/json;charset=utf-8")
     public CommonResult alterRequirement(@RequestBody RequirementSelectDTO dto){
         Requirement requirement = new Requirement();

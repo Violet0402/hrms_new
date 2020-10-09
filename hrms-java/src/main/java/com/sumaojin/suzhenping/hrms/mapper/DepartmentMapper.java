@@ -2,6 +2,7 @@ package com.sumaojin.suzhenping.hrms.mapper;
 
 import com.sumaojin.suzhenping.hrms.entity.Department;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface DepartmentMapper extends BaseMapper<Department> {
 
+    @Select("select id from department where department = #{department}")
+    Long getDepartmentIdByName(String department);
 }

@@ -3,31 +3,49 @@
       <el-dialog title="编辑申请" :visible.sync="editVisible">
         <el-form :model="editData" ref="editData">
           <el-form-item
-            label="岗位"
-            label-width="120px"
-            prop="post"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="editData.post"></el-input>
+            label="面试时间"
+            label-width="120px">
+            <div class="block">
+              <el-date-picker
+                v-model="editData.interviewTime"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </div>
           </el-form-item>
           <el-form-item
-            label="需求人数"
+            label="名字"
             label-width="120px"
-            prop="nums"
+            prop="name"
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-input v-model="editData.nums"></el-input>
+            <el-input v-model="editData.name"></el-input>
           </el-form-item>
           <el-form-item
-            label="岗位需求"
+            label="性别"
             label-width="120px"
-            prop="requirement"
+            prop="gender"
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-input v-model="editData.requirement"></el-input>
+            <el-select v-model="editData.gender" placeholder="请选择">
+              <el-option
+                v-for="item in genders"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="年龄"
+            label-width="120px"
+            prop="age"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.age"></el-input>
           </el-form-item>
           <el-form-item
             label="学历"
@@ -36,7 +54,14 @@
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-input v-model="editData.education"></el-input>
+            <el-select v-model="editData.education" placeholder="请选择">
+              <el-option
+                v-for="item in educations"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item
             label="专业"
@@ -48,15 +73,70 @@
             <el-input v-model="editData.major"></el-input>
           </el-form-item>
           <el-form-item
-            label="希望到岗日期"
-            label-width="120px">
-            <div class="block">
-              <el-date-picker
-                v-model="editData.hopeTime"
-                type="date"
-                placeholder="选择日期">
-              </el-date-picker>
-            </div>
+            label="面试岗位"
+            label-width="120px"
+            prop="job"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select @focus="selectJob" v-model="editData.job" filterable placeholder="请选择">
+              <el-option
+                v-for="item in jobs"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="阶段"
+            label-width="120px"
+            prop="stage"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select v-model="editData.stage" placeholder="请选择">
+              <el-option
+                v-for="item in stages"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="结果"
+            label-width="120px"
+            prop="result"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.result"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="是否纳入人才储备库"
+            label-width="120px"
+            prop="isStore"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select v-model="editData.isStore" placeholder="请选择">
+              <el-option
+                v-for="item in isStores"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="评价"
+            label-width="120px"
+            prop="assess"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.assess"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -65,34 +145,52 @@
         </div>
       </el-dialog>
 
-      <el-dialog title="新增需求" :visible.sync="addRequirement">
+      <el-dialog title="新增管理" :visible.sync="addRequirement">
         <el-form :model="addForm" ref="addForm">
           <el-form-item
-            label="岗位"
-            label-width="120px"
-            prop="post"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="addForm.post"></el-input>
+            label="面试时间"
+            label-width="120px">
+            <div class="block">
+              <el-date-picker
+                v-model="addForm.interviewTime"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </div>
           </el-form-item>
           <el-form-item
-            label="需求人数"
+            label="名字"
             label-width="120px"
-            prop="nums"
+            prop="name"
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-input v-model="addForm.nums"></el-input>
+            <el-input v-model="addForm.name"></el-input>
           </el-form-item>
           <el-form-item
-            label="岗位需求"
+            label="性别"
             label-width="120px"
-            prop="requirement"
+            prop="gender"
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-input v-model="addForm.requirement"></el-input>
+            <el-select v-model="addForm.gender" placeholder="请选择">
+              <el-option
+                v-for="item in genders"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="年龄"
+            label-width="120px"
+            prop="age"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="addForm.age"></el-input>
           </el-form-item>
           <el-form-item
             label="学历"
@@ -101,7 +199,14 @@
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-input v-model="addForm.education"></el-input>
+            <el-select v-model="addForm.education" placeholder="请选择">
+              <el-option
+                v-for="item in educations"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item
             label="专业"
@@ -113,15 +218,70 @@
             <el-input v-model="addForm.major"></el-input>
           </el-form-item>
           <el-form-item
-            label="希望到岗日期"
-            label-width="120px">
-            <div class="block">
-              <el-date-picker
-                v-model="addForm.hopeTime"
-                type="date"
-                placeholder="选择日期">
-              </el-date-picker>
-            </div>
+            label="面试岗位"
+            label-width="120px"
+            prop="job"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select @focus="selectJob" v-model="addForm.job" filterable placeholder="请选择">
+              <el-option
+                v-for="item in jobs"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="阶段"
+            label-width="120px"
+            prop="stage"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select v-model="addForm.stage" placeholder="请选择">
+              <el-option
+                v-for="item in stages"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="结果"
+            label-width="120px"
+            prop="result"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="addForm.result"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="是否纳入人才储备库"
+            label-width="120px"
+            prop="isStore"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select v-model="addForm.isStore" placeholder="请选择">
+              <el-option
+                v-for="item in isStores"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="评价"
+            label-width="120px"
+            prop="assess"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="addForm.assess"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -134,7 +294,7 @@
         <el-header>
           <el-row>
             <el-col :span="3"><div class="grid-content bg-purple"><el-button type="danger" plain round @click="deletePatch">批量删除</el-button></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple"><el-button @click="addRequirement = true" type="primary" plain round>新增需求</el-button></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><el-button @click="addRequirement = true" type="primary" plain round>新增管理</el-button></div></el-col>
             <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <div class="block">
@@ -148,7 +308,7 @@
               </div>
             </div></el-col>
             <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple"><el-input v-model="searchInput" placeholder="搜索岗位名称"></el-input></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><el-input v-model="searchInput" placeholder="搜索面试者"></el-input></div></el-col>
             <el-col :span="3"><div class="grid-content bg-purple">
               <el-button type="primary" round @click="getList">搜索</el-button>
             </div></el-col>
@@ -178,7 +338,7 @@
               width="110">
             </el-table-column>
             <el-table-column
-              prop="interviewee"
+              prop="name"
               label="面试者"
               width="140">
             </el-table-column>
@@ -193,7 +353,17 @@
               width="160">
             </el-table-column>
             <el-table-column
-              prop="post"
+              prop="education"
+              label="学历"
+              width="70">
+            </el-table-column>
+            <el-table-column
+              prop="major"
+              label="专业"
+              width="160">
+            </el-table-column>
+            <el-table-column
+              prop="job"
               label="面试岗位"
               width="50">
             </el-table-column>
@@ -213,12 +383,12 @@
               width="130">
             </el-table-column>
             <el-table-column
-              prop="isTalent"
+              prop="isStore"
               label="是否纳入人才储备"
               width="110">
             </el-table-column>
             <el-table-column
-              prop="conclusion"
+              prop="assess"
               label="评价"
               width="110">
             </el-table-column>
@@ -260,6 +430,53 @@
         name: "InterviewM",
         data() {
             return {
+                isStores:[{
+                    label:'是',
+                    value:'是'
+                },
+                    {
+                        label: '否',
+                        value: '否'
+                    }],
+                stages:[{
+                    label:'初试',
+                    value:'初试'
+                },
+                    {
+                        label: '复试',
+                        value: '复试'
+                    }],
+                jobs:'',
+                educations:[{
+                    label:"大专以下",
+                    value:"大专以下"
+                },
+                    {
+                        label:"专科",
+                        value:"专科"
+                    },
+                    {
+                        label:"本科",
+                        value:"本科"
+                    },
+                    {
+                        label:"硕士",
+                        value:"硕士"
+                    },
+                    {
+                        label:"博士",
+                        value:"博士"
+                    }],
+                genders:[{
+                   label:'男',
+                   value:'男'
+                  },
+                    {
+                        label: '女',
+                        value: '女'
+                    }
+                ],
+                select:'',
                 total:"",
                 size:"",
                 currentPage:"1",
@@ -274,7 +491,7 @@
 
                 }],
                 addForm:{
-                    post:"",nums:'',requirement:'', education:'',major:'',hopeTime:''
+                    interviewTime:'', name:'',gender:'',age:'',education:'',major:'',job:'',department:'',stage:'',result:'',isStore:'',assess:''
                 }
             }
         },
@@ -286,7 +503,7 @@
                     type: 'warning'
                 }).then(() => {
                     let _this = this;
-                    this.$http.post("http://localhost:9999/requirement/deleteAll",this.multipleSelection).then(res =>{
+                    this.$http.post("http://localhost:9999/interview/deleteAll",this.multipleSelection).then(res =>{
                         if(res.data.code == 200){
                             _this.$message.success("删除成功");
                         }else {
@@ -308,7 +525,7 @@
             },
             editRequirement(){
                 let _this = this;
-                this.$http.put("http://localhost:9999/requirement", this.editData).then(res =>{
+                this.$http.put("http://localhost:9999/interview", this.editData).then(res =>{
                     if (res.data.code == 200){
                         _this.$message.success("编辑成功");
                         _this.editVisible = false;
@@ -316,6 +533,13 @@
                     }else{
                         _this.$message.error("编辑失败");
                     }
+                })
+            },
+            selectJob(){
+                let _this = this;
+                console.log(this.jobs)
+                this.$http.get("http://localhost:9999/interview/getJob").then(res =>{
+                    _this.jobs = res.data.data
                 })
             },
             getList(){
@@ -326,13 +550,13 @@
                 if (this.searchInput == null){
                     this.search = '';
                 }
-                this.$http.get("http://localhost:9999/requirement/findList",{
+                this.$http.get("http://localhost:9999/interview/findList",{
                     params:{
                         currentPage:_this.currentPage,
                         size:_this.size,
                         startTime:_this.value1[0],
                         endTime: _this.value1[1],
-                        post:_this.searchInput
+                        name:_this.searchInput
                     }
                 }).then((res) =>{
                     _this.total = res.data.data.total
@@ -341,19 +565,25 @@
             },
             add(){
                 let _this = this;
-                this.$http.post("http://localhost:9999/requirement",this.$qs.stringify(this.addForm)).then((res)=>{
+                this.$http.post("http://localhost:9999/interview",this.$qs.stringify(this.addForm)).then((res)=>{
                     if (res.data.code == 200){
                         _this.$message({
                             type:"success",
                             message:"增加成功"
                         });
                         this.addRequirement = false;
-                        this.addForm.post = '';
-                        this.addForm.nums = '';
-                        this.addForm.requirement = '';
-                        this.addForm.education = '';
-                        this.addForm.major = '';
-                        this.hopeTime = '';
+                        this.addForm.interviewTime='';
+                        this.addForm.name='';
+                        this.addForm.gender='';
+                        this.addForm.age='';
+                        this.addForm.education='';
+                        this.addForm.major='';
+                        this.addForm.job='';
+                        this.addForm.department='';
+                        this.addForm.stage='';
+                        this.addForm.result='';
+                        this.addForm.isStore='';
+                        this.addForm.assess='';
                         _this.getList();
                     }else{
                         _this.$message({
@@ -366,12 +596,22 @@
             addConcel(){
                 this.$message("已取消");
                 this.addRequirement = false;
-                this.addForm.post = '';
-                this.addForm.nums = '';
-                this.addForm.requirement = '';
-                this.addForm.education = '';
-                this.addForm.major = '';
-                this.hopeTime = '';
+                /*addForm:{
+                    interviewTime:'', name:'',gender:'',age:'',education:'',major:'',
+                    job:'',department:'',stage:'',result:'',isStore:'',assess:''
+                }*/
+                this.addForm.interviewTime='';
+                this.addForm.name='';
+                this.addForm.gender='';
+                this.addForm.age='';
+                this.addForm.education='';
+                this.addForm.major='';
+                this.addForm.jobs='';
+                this.addForm.department='';
+                this.addForm.stage='';
+                this.addForm.result='';
+                this.addForm.isStore='';
+                this.addForm.assess='';
             },
             handleSizeChange(val) {
                 this.size = val;
@@ -396,6 +636,7 @@
             handleEdit(index, row) {
                 this.editVisible = true;
                 this.editData = row;
+                console.log(this.editData)
             },
             handleDelete(index, row) {
                 this.$confirm('此操作将删除该申请, 是否继续?', '提示', {
@@ -404,7 +645,7 @@
                     type: 'warning'
                 }).then(() => {
                     let _this = this;
-                    this.$http.delete("http://localhost:9999/requirement/"+row.id).then(res =>{
+                    this.$http.delete("http://localhost:9999/interview/"+row.id).then(res =>{
                         _this.$message({
                             type: 'success',
                             message: '删除成功!'
@@ -421,7 +662,7 @@
         },
         created() {
             let _this = this;
-            this.$http.get("http://localhost:9999/requirement/findList").then((res) =>{
+            this.$http.get("http://localhost:9999/interview/findList").then((res) =>{
                 _this.total = res.data.data.total
                 _this.tableData = res.data.data.records;
             })

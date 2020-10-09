@@ -19,6 +19,7 @@ import com.sumaojin.suzhenping.hrms.service.IIdentityService;
 import com.sumaojin.suzhenping.hrms.service.IRequirementService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sumaojin.suzhenping.hrms.util.Utils;
+import com.sumaojin.suzhenping.hrms.vm.PostVM;
 import com.sumaojin.suzhenping.hrms.vm.RequirementVM;
 import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
@@ -54,6 +55,8 @@ public class RequirementServiceImpl extends ServiceImpl<RequirementMapper, Requi
     private IDepartmentService departmentService;
     @Resource
     private DepartmentMapper departmentMapper;
+    @Resource
+    private RequirementMapper requirementMapper;
     /**
      * 按需查询
      * @return
@@ -126,5 +129,33 @@ public class RequirementServiceImpl extends ServiceImpl<RequirementMapper, Requi
         requirement.setCreateTime(new Timestamp(new Date().getTime()));
         boolean flag = save(requirement);
         return flag;
+    }
+
+    /**
+     * 获取岗位
+     * @return
+     */
+    @Override
+
+    public List<PostVM> getPost() {
+        List<String> posts = requirementMapper.getPost();
+        ArrayList<PostVM> vms = new ArrayList<>();
+        for (String s : posts){
+            PostVM vm = new PostVM();
+            vm.setLabel(s);
+            vm.setValue(s);
+            vms.add(vm);
+        }
+        return vms;
+    }
+
+    /**
+     * 根据岗位获取部门
+     * @param post
+     * @return
+     */
+    @Override
+    public Long getDepartmentIdByPost(String post) {
+        return requirementMapper.getDepartmentIdByPost(post);
     }
 }

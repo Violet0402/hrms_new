@@ -6,9 +6,11 @@ import com.sumaojin.suzhenping.hrms.dto.RequirementDTO;
 import com.sumaojin.suzhenping.hrms.entity.Requirement;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sumaojin.suzhenping.hrms.result.CommonResult;
+import com.sumaojin.suzhenping.hrms.vm.PostVM;
 import com.sumaojin.suzhenping.hrms.vm.RequirementVM;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -23,4 +25,8 @@ public interface IRequirementService extends IService<Requirement> {
     CommonResult<IPage<RequirementVM>> findList(RequirementDTO dto, HttpServletRequest request);
 
     Boolean create(RequirementCreate dto, HttpServletRequest request);
+
+    List<PostVM> getPost();
+
+    Long getDepartmentIdByPost(String post);
 }
