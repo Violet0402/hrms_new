@@ -50,11 +50,33 @@ CREATE TABLE `employee` (
   `isOfficial` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL,
   `post` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1314867575790047235 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `employee` */
 
 insert  into `employee`(`id`,`name`,`departmentId`,`joinTime`,`officialTime`,`endTime`,`gender`,`roleId`,`education`,`major`,`salary`,`isEnd`,`isOfficial`,`post`) values (1,'susu',1,'2020-09-01','2020-09-15',NULL,'女',1,'本科','工商管理',10000,'否','是','人力资源'),(2,'shu',2,'2020-09-01','2020-10-10',NULL,'男',2,'本科','计算机',10000,'否','是','java开发');
+
+/*Table structure for table `entry` */
+
+DROP TABLE IF EXISTS `entry`;
+
+CREATE TABLE `entry` (
+  `id` bigint(64) NOT NULL AUTO_INCREMENT,
+  `joinTime` date DEFAULT NULL,
+  `name` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
+  `gender` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
+  `age` int(20) DEFAULT NULL,
+  `education` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
+  `major` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
+  `post` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
+  `departmentId` bigint(64) DEFAULT NULL,
+  `intershipSalary` int(20) DEFAULT NULL,
+  `officialSalary` int(20) DEFAULT NULL,
+  `isOfficial` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1314867575790047235 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+/*Data for the table `entry` */
 
 /*Table structure for table `identity` */
 
@@ -112,7 +134,7 @@ CREATE TABLE `menu` (
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`menuName`,`router`,`style`,`permission`) values (1,'首页','index','el-icon-s-home',2),(2,'岗位需求','jobRequire','el-icon-circle-plus',1),(3,'面试管理','interviewM','el-icon-reading',5),(4,'入职管理','joinManager','el-icon-box',5),(5,'员工信息表','employee','el-icon-user',5);
+insert  into `menu`(`id`,`menuName`,`router`,`style`,`permission`) values (1,'首页','index','el-icon-s-home',2),(2,'岗位需求','jobRequire','el-icon-circle-plus',1),(3,'面试管理','interviewM','el-icon-reading',5),(4,'入职管理','joinManager','el-icon-box',5),(5,'员工信息','employee','el-icon-user',5);
 
 /*Table structure for table `requirement` */
 
