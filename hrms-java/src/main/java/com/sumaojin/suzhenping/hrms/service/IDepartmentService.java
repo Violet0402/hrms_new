@@ -2,6 +2,10 @@ package com.sumaojin.suzhenping.hrms.service;
 
 import com.sumaojin.suzhenping.hrms.entity.Department;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sumaojin.suzhenping.hrms.result.CommonResult;
+import com.sumaojin.suzhenping.hrms.vm.DepartmentVM;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +18,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IDepartmentService extends IService<Department> {
 
     Long getDepartmentIdByName(String department);
+
+    CommonResult<List<DepartmentVM>> getDepartment();
 }

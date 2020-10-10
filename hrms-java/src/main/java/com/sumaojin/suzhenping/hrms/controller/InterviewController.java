@@ -68,6 +68,12 @@ public class InterviewController {
         return new CommonResult<List<PostVM>>(requirementService.getPost());
     }
 
+    /**
+     * 创建面试
+     * @param request
+     * @param dto
+     * @return
+     */
     @PostMapping(value = "", produces = "application/json;charset=utf-8")
     public CommonResult createInterview(HttpServletRequest request, InterviewCreateDTO dto){
         Boolean flag = interviewService.createInterview(dto, request);

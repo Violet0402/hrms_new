@@ -111,7 +111,14 @@
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-input v-model="editData.result"></el-input>
+            <el-select v-model="editData.result" placeholder="请选择">
+              <el-option
+                v-for="item in results"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item
             label="是否纳入人才储备库"
@@ -256,7 +263,14 @@
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-input v-model="addForm.result"></el-input>
+            <el-select v-model="addForm.result" placeholder="请选择">
+              <el-option
+                v-for="item in results"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item
             label="是否纳入人才储备库"
@@ -265,7 +279,7 @@
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-select v-model="addForm.isStore" placeholder="请选择">
+            <el-select v-model="addForm.isStore" :disabled="isDisabled" placeholder="请选择">
               <el-option
                 v-for="item in isStores"
                 :key="item.value"
@@ -340,17 +354,17 @@
             <el-table-column
               prop="name"
               label="面试者"
-              width="140">
+              width="70">
             </el-table-column>
             <el-table-column
               prop="gender"
               label="性别"
-              width="85">
+              width="50">
             </el-table-column>
             <el-table-column
               prop="age"
               label="年龄"
-              width="160">
+              width="50">
             </el-table-column>
             <el-table-column
               prop="education"
@@ -360,17 +374,17 @@
             <el-table-column
               prop="major"
               label="专业"
-              width="160">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="job"
               label="面试岗位"
-              width="50">
+              width="160">
             </el-table-column>
             <el-table-column
               prop="department"
               label="部门"
-              width="200">
+              width="140">
             </el-table-column>
             <el-table-column
               prop="stage"
@@ -380,17 +394,17 @@
             <el-table-column
               prop="result"
               label="结果"
-              width="130">
+              width="55">
             </el-table-column>
             <el-table-column
               prop="isStore"
               label="是否纳入人才储备"
-              width="110">
+              width="55">
             </el-table-column>
             <el-table-column
               prop="assess"
               label="评价"
-              width="110">
+              width="200">
             </el-table-column>
             <el-table-column
               label="操作"
@@ -430,6 +444,16 @@
         name: "InterviewM",
         data() {
             return {
+
+                isDisabled:true,
+                results:[{
+                    label:'通过',
+                    value:"通过"
+                },
+                    {
+                      label: '不通过',
+                        value: '不通过',
+                    }],
                 isStores:[{
                     label:'是',
                     value:'是'
@@ -495,6 +519,22 @@
                 }
             }
         },
+        computed:{
+            newResult(){
+                return this.addForm.result
+            }
+        },
+        watch:{
+            newResult(val){
+                if (this.addForm.result == '不通过'){
+                    this.isDisabled=false;
+                }else{
+                    this.addForm.isStore='';
+                    this.isDisabled=true;
+                }
+            },
+
+        },
         methods: {
             deletePatch(){
                 this.$confirm('此操作将删除所选, 是否继续?', '提示', {
@@ -520,6 +560,7 @@
 
             },
             editConcel(){
+                this.getList();
                 this.$message("已取消");
                 this.editVisible = false;
             },
@@ -537,7 +578,6 @@
             },
             selectJob(){
                 let _this = this;
-                console.log(this.jobs)
                 this.$http.get("http://localhost:9999/interview/getJob").then(res =>{
                     _this.jobs = res.data.data
                 })
@@ -683,7 +723,7 @@
     background-color: #B3C0D1;
     color: #333;
     text-align: center;
-    line-height: 160px;
+    line-height: 50px;
     height: 73vh;
   }
 

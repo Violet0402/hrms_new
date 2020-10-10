@@ -6,6 +6,7 @@ import Index from "../components/container/Index";
 import JobRequire from "../components/container/JobRequire";
 import InterviewM from "../components/container/InterviewM";
 import JoinManager from "../components/container/JoinManager";
+import Employee from "../components/container/Employee";
 
 Vue.use(Router)
 
@@ -18,7 +19,8 @@ export default new Router({
       {path:"/home/index", component:Index},
         {path:"/home/jobRequire", component: JobRequire},
         {path:"/home/interviewM", component:InterviewM},
-        {path:"/home/joinManager", component:JoinManager}
+        {path:"/home/joinManager", component:JoinManager},
+        {path:'/home/employee', component:Employee}
       ]}
   ]
 })

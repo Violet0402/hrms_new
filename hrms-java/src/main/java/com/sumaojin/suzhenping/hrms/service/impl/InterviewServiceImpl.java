@@ -54,7 +54,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         Page<Interview> page = new Page<>(dto.getCurrentPage(), dto.getSize());
         Long userId = Long.parseLong((String)(request.getSession().getAttribute("userId")));
         QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
-
+        queryWrapper.orderByAsc("interviewTime");
         if (dto.getEndTime() != null && dto.getStartTime() != null){
             Timestamp startTime = Utils.stringToTimestap(dto.getStartTime());
             Timestamp endTime = Utils.stringToTimestap(dto.getEndTime());

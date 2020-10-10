@@ -1,5 +1,6 @@
 package com.sumaojin.suzhenping.hrms.entity;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -38,16 +39,16 @@ public class Employee implements Serializable {
     private String name;
 
     @TableField("departmentId")
-    private Integer departmentId;
+    private Long departmentId;
 
     @TableField("joinTime")
-    private LocalDate joinTime;
+    private Timestamp joinTime;
 
-    @TableField("fullMember")
-    private LocalDate fullMember;
+    @TableField("officialTime")
+    private Timestamp officialTime;
 
     @TableField("endTime")
-    private LocalDate endTime;
+    private Timestamp endTime;
 
     @TableField("gender")
     private String gender;
@@ -55,5 +56,22 @@ public class Employee implements Serializable {
     @TableField("roleId")
     private Integer roleId;
 
+    @TableField("education")
+    private String education;
+
+    @TableField("major")
+    private String major;
+
+    @TableField("salary")
+    private Integer salary;
+
+    @TableField("isEnd")
+    private String isEnd;
+
+    @TableField("isOfficial")
+    private String isOfficial;
+
+    @TableField("post")
+    private String post;
 
 }

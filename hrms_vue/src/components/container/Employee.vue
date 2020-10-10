@@ -1,62 +1,23 @@
 <template>
     <div>
+
       <el-dialog title="编辑申请" :visible.sync="editVisible">
         <el-form :model="editData" ref="editData">
           <el-form-item
-            label="岗位"
+            label="是否转正"
             label-width="120px"
             prop="post"
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-input v-model="editData.post"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="需求人数"
-            label-width="120px"
-            prop="nums"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="editData.nums"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="岗位需求"
-            label-width="120px"
-            prop="requirement"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="editData.requirement"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="学历"
-            label-width="120px"
-            prop="education"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="editData.education"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="专业"
-            label-width="120px"
-            prop="major"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="editData.major"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="希望到岗日期"
-            label-width="120px">
-            <div class="block">
-              <el-date-picker
-                v-model="editData.hopeTime"
-                type="date"
-                placeholder="选择日期">
-              </el-date-picker>
-            </div>
+            <el-select :disabled="eDisabled" v-model="editData.isOfficial" placeholder="请选择">
+              <el-option
+                v-for="item in eIsOfficials"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -69,9 +30,9 @@
         <el-form :model="addForm" ref="addForm">
           <el-form-item
             label="岗位"
-          label-width="120px"
-          prop="post"
-          :rules="[
+            label-width="120px"
+            prop="post"
+            :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
             <el-input v-model="addForm.post"></el-input>
@@ -88,7 +49,7 @@
           <el-form-item
             label="岗位需求"
             label-width="120px"
-          prop="requirement"
+            prop="requirement"
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
@@ -97,7 +58,7 @@
           <el-form-item
             label="学历"
             label-width="120px"
-          prop="education"
+            prop="education"
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
@@ -106,7 +67,7 @@
           <el-form-item
             label="专业"
             label-width="120px"
-          prop="major"
+            prop="major"
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
@@ -133,9 +94,29 @@
       <el-container>
         <el-header>
           <el-row>
-            <el-col :span="3"><div class="grid-content bg-purple"><el-button type="danger" plain round @click="deletePatch">批量删除</el-button></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple"><el-button @click="addRequirement = true" type="primary" plain round>新增需求</el-button></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="1"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="1"><div class="grid-content bg-purple">是否离职</div></el-col>
+            <el-col :span="2"><div class="grid-content bg-purple">
+              <el-select v-model="sIsEnd" placeholder="请选择">
+              <el-option
+                v-for="item in sIsEnds"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select></div></el-col>
+            <el-col :span="1"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="1"><div class="grid-content bg-purple">是否正式</div></el-col>
+            <el-col :span="2"><div class="grid-content bg-purple">
+              <el-select v-model="sIsOfficial" placeholder="请选择">
+                <el-option
+                  v-for="item in sIsOfficials"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select></div></el-col>
+            <el-col :span="1"><div class="grid-content bg-purple"></div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <div class="block">
                 <el-date-picker
@@ -148,7 +129,7 @@
               </div>
             </div></el-col>
             <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple"><el-input v-model="searchInput" placeholder="搜索岗位名称"></el-input></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><el-input v-model="searchInput" placeholder="搜索名字"></el-input></div></el-col>
             <el-col :span="3"><div class="grid-content bg-purple">
               <el-button type="primary" round @click="getList">搜索</el-button>
             </div></el-col>
@@ -165,70 +146,72 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-table-column
-            type="selection"
-            width="35">
-          </el-table-column>
-            <el-table-column
-            type="index"
-            width="35">
+              type="index"
+              width="35">
             </el-table-column>
             <el-table-column
-              prop="createTime"
-              label="申请日期"
-              width="110">
+              prop="name"
+              label="姓名"
+              width="85">
             </el-table-column>
             <el-table-column
-              prop="department"
-              label="部门"
-            width="140">
-            </el-table-column>
-            <el-table-column
-              prop="proposer"
-              label="申请人"
-            width="85">
-            </el-table-column>
-            <el-table-column
-              prop="post"
-              label="岗位"
-            width="160">
-            </el-table-column>
-            <el-table-column
-              prop="nums"
-              label="人数"
-            width="50">
-            </el-table-column>
-            <el-table-column
-              prop="requirement"
-              label="岗位需求"
-            width="200">
+              prop="gender"
+              label="性别"
+              width="50">
             </el-table-column>
             <el-table-column
               prop="education"
               label="学历"
-            width="55">
+              width="55">
             </el-table-column>
             <el-table-column
               prop="major"
               label="专业"
-            width="130">
+              width="130">
             </el-table-column>
             <el-table-column
-              prop="hopeTime"
-              label="希望到岗日期"
-            width="110">
+              prop="department"
+              label="部门"
+              width="140">
             </el-table-column>
             <el-table-column
-              label="操作"
-              width="200"
+              prop="post"
+              label="岗位"
+              width="160">
+            </el-table-column>
+            <el-table-column
+              prop="joinTime"
+              label="入职时间"
+              width="110">
+            </el-table-column>
+            <el-table-column
+              prop="officialTime"
+              label="转正时间"
+              width="110">
+            </el-table-column>
+            <el-table-column
+              prop="endTime"
+              label="离职时间"
+              width="110">
+            </el-table-column>
+            <el-table-column
+              prop="isOfficial"
+              label="是否正式员工"
+              width="50">
+            </el-table-column>
+            <el-table-column
+              prop="isEnd"
+              label="是否离职"
+              width="50">
+            </el-table-column>
+            <el-table-column
+              label="转正操作"
+              width="100"
               show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-button
                   size="medium"
                   @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                <el-button
-                  size="medium"
-                  type="danger"
-                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -252,26 +235,61 @@
 
 <script>
     export default {
-        name: "JobRequire",
+        name: "Employee",
         data() {
-          return {
-              total:"",
-              size:"",
-              currentPage:"1",
-              addRequirement:false,
-              editVisible:false,
+            return {
+                eDisabled:false,
+                eIsOfficials:[{
+                    label:"是",
+                    value:'是'
+                },
+                    {
+                        label: "否",
+                        value: "否"
+                    }],
+                sIsOfficial:'',
+                sIsOfficials:[{
+                    label:'不限',
+                    value:''
+                },
+                    {
+                        label: "是",
+                        value: "是"
+                    },
+                    {
+                        label:"否",
+                        value:'否'
+                    }],
+                sIsEnds:[{
+                    label: '不限',
+                    value: ''
+                },
+                    {
+                        label: "是",
+                        value: "是"
+                    },
+                    {
+                        label:"否",
+                        value:'否'
+                    }],
+                sIsEnd:'',
+                total:"",
+                size:"",
+                currentPage:"1",
+                addRequirement:false,
+                editVisible:false,
 
-              searchInput:'',
-              editData:'',
+                searchInput:'',
+                editData:'',
 
-              value1:'',
-              tableData:[{
+                value1:'',
+                tableData:[{
 
-              }],
-              addForm:{
-                  post:"",nums:'',requirement:'', education:'',major:'',hopeTime:''
-              }
-          }
+                }],
+                addForm:{
+                    post:"",nums:'',requirement:'', education:'',major:'',hopeTime:''
+                }
+            }
         },
         methods: {
             deletePatch(){
@@ -304,7 +322,7 @@
             },
             editRequirement(){
                 let _this = this;
-                this.$http.put("http://localhost:9999/requirement", this.editData).then(res =>{
+                this.$http.put("http://localhost:9999/employee", this.editData).then(res =>{
                     if (res.data.code == 200){
                         _this.$message.success("编辑成功");
                         _this.editVisible = false;
@@ -322,13 +340,21 @@
                 if (this.searchInput == null){
                     this.search = '';
                 }
-                this.$http.get("http://localhost:9999/requirement/findList",{
+                if (this.sIsEnd == null){
+                    this.sIsEnd = ''
+                }
+                if (this.sIsOfficial == null){
+                    this.sIsOfficial = ''
+                }
+                this.$http.get("http://localhost:9999/employee/findList",{
                     params:{
                         currentPage:_this.currentPage,
                         size:_this.size,
                         startTime:_this.value1[0],
                         endTime: _this.value1[1],
-                        post:_this.searchInput
+                        name:_this.searchInput,
+                        isEnd:_this.sIsEnd,
+                        isOfficial:_this.sIsOfficial
                     }
                 }).then((res) =>{
                     _this.total = res.data.data.total
@@ -390,6 +416,11 @@
                 this.multipleSelection = val;
             },
             handleEdit(index, row) {
+                if (row.isOfficial == '是'){
+                    this.eDisabled = true;
+                }else {
+                    this.eDisabled = false;
+                }
                 this.editVisible = true;
                 this.editData = row;
             },
@@ -402,8 +433,8 @@
                     let _this = this;
                     this.$http.delete("http://localhost:9999/requirement/"+row.id).then(res =>{
                         _this.$message({
-                        type: 'success',
-                        message: '删除成功!'
+                            type: 'success',
+                            message: '删除成功!'
                         });
                         _this.getList();
                     })
@@ -417,7 +448,7 @@
         },
         created() {
             let _this = this;
-            this.$http.get("http://localhost:9999/requirement/findList").then((res) =>{
+            this.$http.get("http://localhost:9999/employee/findList").then((res) =>{
                 _this.total = res.data.data.total
                 _this.tableData = res.data.data.records;
             })
@@ -426,22 +457,20 @@
 </script>
 
 <style scoped>
-  .el-header,footer{
+  .el-header, .el-footer {
     padding: 0 !important;
-    background-color: #DCDFE6;
+    background-color: #B3C0D1;
     color: #333;
     text-align: center;
     line-height: 60px;
   }
-
   .el-main {
-    background-color: #B3C0D1;
+    background-color: #E9EEF3;
     color: #333;
     text-align: center;
-    line-height: 50px;
+    line-height: 160px;
     height: 73vh;
   }
-
   .el-row {
     margin-bottom: 20px;
   &:last-child {
