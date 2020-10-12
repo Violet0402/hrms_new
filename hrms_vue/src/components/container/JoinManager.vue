@@ -132,6 +132,18 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item
+          label="转正日期"
+          label-width="120px">
+          <div class="block">
+            <el-date-picker
+              :disabled="isDisabled"
+              v-model="editData.officialTime"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </div>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editConcel">取 消</el-button>
@@ -217,6 +229,18 @@
               :value="item.value">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item
+          label="转正日期"
+          label-width="120px">
+          <div class="block">
+            <el-date-picker
+              :disabled="isDisabledA"
+              v-model="addForm.officialTime"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -356,7 +380,10 @@
         name: "JoinManager",
         data() {
             return {
-                aInterviewTimes:'',
+              isDisabled:true,
+              isDisabledA:true,
+
+              aInterviewTimes:'',
                 aNames:'',
                 genders:[{
                     label:'男',
@@ -411,7 +438,7 @@
                 }],
                 addForm:{
                     name:'',gender:'',age:'',education:'',major:'',post:'',department:'',officialSalary:'',intershipSalary:'',isOfficial:'',joinTime:'',
-                    interviewTime:''
+                    interviewTime:'',officialTime:''
                 }
             }
         },
@@ -591,6 +618,32 @@
                 });
             }
         },
+      watch:{
+        newOfficialTime(val){
+          if (this.editData.isOfficial == "是"){
+            this.isDisabled=false;
+          }else{
+
+            this.isDisabled=true;
+          }
+        },
+        newOfficialTimeA(val){
+          if (this.addForm.isOfficial == "是"){
+            this.isDisabledA=false;
+          }else{
+
+            this.isDisabledA=true;
+          }
+        }
+      },
+      computed:{
+        newOfficialTime(){
+          return this.editData.isOfficial
+        },
+        newOfficialTimeA(){
+          return this.addForm.isOfficial
+        }
+      },
         created() {
             let _this = this;
             this.$http.get("http://localhost:9999/entry/findList").then((res) =>{

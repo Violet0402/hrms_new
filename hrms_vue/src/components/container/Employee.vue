@@ -19,6 +19,19 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item
+            label="转正日期"
+            label-width="120px">
+            <div class="block">
+              <el-date-picker
+                :disabled="isDisabled"
+                v-model="editData.officialTime"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          <!--:disabled="isDisabled"-->
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="editConcel">取 消</el-button>
@@ -238,6 +251,7 @@
         name: "Employee",
         data() {
             return {
+              isDisabled:true,
                 eDisabled:false,
                 eIsOfficials:[{
                     label:"是",
@@ -287,10 +301,27 @@
 
                 }],
                 addForm:{
-                    post:"",nums:'',requirement:'', education:'',major:'',hopeTime:''
+                    post:"",nums:'',requirement:'', education:'',major:'',hopeTime:'',officialTime:''
                 }
             }
         },
+      watch:{
+        newOfficialTime(val){
+          console.log("啊啊啊啊啊啊啊啊")
+          if (this.editData.isOfficial == "是"){
+            this.isDisabled=false;
+          }else{
+
+            this.isDisabled=true;
+          }
+        },
+
+      },
+      computed:{
+        newOfficialTime(){
+          return this.editData.isOfficial
+        }
+      },
         methods: {
             deletePatch(){
                 this.$confirm('此操作将删除所选, 是否继续?', '提示', {
@@ -418,8 +449,10 @@
             handleEdit(index, row) {
                 if (row.isOfficial == '是'){
                     this.eDisabled = true;
+                    this.isDisabled=false;
                 }else {
                     this.eDisabled = false;
+                    this.isDisabled=true;
                 }
                 this.editVisible = true;
                 this.editData = row;

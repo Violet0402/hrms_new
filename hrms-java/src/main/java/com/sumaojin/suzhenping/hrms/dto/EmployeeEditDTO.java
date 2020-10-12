@@ -16,4 +16,5 @@ public class EmployeeEditDTO {
     private String officialTime;
     private String post;*/
     private String isOfficial;
+    private String officialTime;
 }

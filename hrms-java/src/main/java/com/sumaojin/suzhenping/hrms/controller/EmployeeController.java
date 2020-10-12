@@ -9,6 +9,7 @@ import com.sumaojin.suzhenping.hrms.dto.JoinTimeDTO;
 import com.sumaojin.suzhenping.hrms.entity.Employee;
 import com.sumaojin.suzhenping.hrms.result.CommonResult;
 import com.sumaojin.suzhenping.hrms.service.IEmployeeService;
+import com.sumaojin.suzhenping.hrms.util.Utils;
 import com.sumaojin.suzhenping.hrms.vm.EmployeeNamesVM;
 import com.sumaojin.suzhenping.hrms.vm.EmployeeVM;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +60,7 @@ public class EmployeeController {
     public CommonResult edit(@RequestBody EmployeeEditDTO dto){
         System.out.println(dto);
         if (dto.getIsOfficial().equals("是")){
-            boolean isUpdate = employeeService.update(new UpdateWrapper<Employee>().eq("id", dto.getId()).set("isOfficial", dto.getIsOfficial()).set("officialTime", new Timestamp(new Date().getTime())));
+            boolean isUpdate = employeeService.update(new UpdateWrapper<Employee>().eq("id", dto.getId()).set("isOfficial", dto.getIsOfficial()).set("officialTime", Utils.stringToTimestap(dto.getOfficialTime())));
             if (isUpdate){
                 return new CommonResult(null);
             }else {
