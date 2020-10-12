@@ -1,9 +1,8 @@
 package com.sumaojin.suzhenping.hrms.entity;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
@@ -17,45 +16,34 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author SMJ
- * @since 2020-10-10
+ * @since 2020-10-12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Entry对象", description="")
-public class Entry implements Serializable {
+@ApiModel(value="End对象", description="")
+public class End implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId("id")
     private Long id;
 
-    @TableField("joinTime")
-    private Timestamp joinTime;
-
     private String name;
-
-    private String gender;
-
-    private Integer age;
-
-    private String education;
-
-    private String major;
 
     private String post;
 
     @TableField("departmentId")
     private Long departmentId;
 
-    @TableField("intershipSalary")
-    private Integer intershipSalary;
+    @TableField("isAutoEnd")
+    private String isAutoEnd;
 
-    @TableField("officialSalary")
-    private Integer officialSalary;
+    @TableField("isDispute")
+    private String isDispute;
 
-    @TableField("isOfficial")
-    private String isOfficial;
+    @TableField("endTime")
+    private Timestamp endTime;
 
-    @TableField("interviewTime")
-    private Timestamp interviewTime;
+    @TableField("compensation")
+    private Integer compensation;
 }

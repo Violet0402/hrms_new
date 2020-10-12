@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.sumaojin.suzhenping.hrms.dto.EmployeeDTO;
 import com.sumaojin.suzhenping.hrms.dto.EmployeeEditDTO;
+import com.sumaojin.suzhenping.hrms.dto.JoinTimeDTO;
 import com.sumaojin.suzhenping.hrms.entity.Employee;
 import com.sumaojin.suzhenping.hrms.result.CommonResult;
 import com.sumaojin.suzhenping.hrms.service.IEmployeeService;
+import com.sumaojin.suzhenping.hrms.vm.EmployeeNamesVM;
 import com.sumaojin.suzhenping.hrms.vm.EmployeeVM;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -65,5 +68,23 @@ public class EmployeeController {
         }else {
             return new CommonResult(null);
         }
+    }
+
+    /**
+     * 获取名字
+     * @return
+     */
+    @GetMapping("/getNames")
+    public CommonResult<List<EmployeeNamesVM>> getNames(){
+        return employeeService.getNames();
+    }
+
+    /**
+     * 获取入职时间
+     * @return
+     */
+    @GetMapping("/getJoinTimes")
+    public CommonResult<List<EmployeeNamesVM>> getJoinTimes(JoinTimeDTO dto){
+        return employeeService.getJoinTimes(dto);
     }
 }

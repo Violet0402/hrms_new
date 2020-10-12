@@ -4,10 +4,7 @@ package com.sumaojin.suzhenping.hrms.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.sumaojin.suzhenping.hrms.dto.InterviewCreateDTO;
-import com.sumaojin.suzhenping.hrms.dto.InterviewDeleteDTO;
-import com.sumaojin.suzhenping.hrms.dto.InterviewFind;
-import com.sumaojin.suzhenping.hrms.dto.RequirementDTO;
+import com.sumaojin.suzhenping.hrms.dto.*;
 import com.sumaojin.suzhenping.hrms.entity.Interview;
 import com.sumaojin.suzhenping.hrms.result.CommonResult;
 import com.sumaojin.suzhenping.hrms.service.IDepartmentService;
@@ -15,6 +12,8 @@ import com.sumaojin.suzhenping.hrms.service.IInterviewService;
 import com.sumaojin.suzhenping.hrms.service.IRequirementService;
 import com.sumaojin.suzhenping.hrms.util.Utils;
 import com.sumaojin.suzhenping.hrms.vm.InterviewFindVM;
+import com.sumaojin.suzhenping.hrms.vm.InterviewTimeVM;
+import com.sumaojin.suzhenping.hrms.vm.NamesVM;
 import com.sumaojin.suzhenping.hrms.vm.PostVM;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -136,6 +135,24 @@ public class InterviewController {
         }else {
             return new CommonResult(444, "操作失败");
         }
+    }
 
+    /**
+     * 获取名字
+     * @return
+     */
+    @GetMapping("/getNames")
+    public CommonResult<List<NamesVM>> getNames(){
+        return interviewService.getNames();
+    }
+
+    /**
+     * 获取面试时间
+     * @param dto
+     * @return
+     */
+    @GetMapping("/getInterviewTimes")
+    public CommonResult<List<InterviewTimeVM>> getInterviewTimes(InterviewTimeDTO dto){
+        return interviewService.getInterviewTimes(dto);
     }
 }

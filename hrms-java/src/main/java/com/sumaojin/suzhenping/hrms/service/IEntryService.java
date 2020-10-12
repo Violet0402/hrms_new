@@ -3,6 +3,7 @@ package com.sumaojin.suzhenping.hrms.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.sumaojin.suzhenping.hrms.dto.EntryCreateDTO;
 import com.sumaojin.suzhenping.hrms.dto.EntryDTO;
+import com.sumaojin.suzhenping.hrms.dto.EntryEditDTO;
 import com.sumaojin.suzhenping.hrms.entity.Entry;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sumaojin.suzhenping.hrms.result.CommonResult;
@@ -21,4 +22,6 @@ public interface IEntryService extends IService<Entry> {
     CommonResult<IPage<EntryVM>> findList(EntryDTO dto);
 
     Boolean create(EntryCreateDTO dto);
+
+    Boolean editEntry(EntryEditDTO dto);
 }

@@ -74,4 +74,9 @@ public class Employee implements Serializable {
     @TableField("post")
     private String post;
 
+    @TableField("entryId")
+    private Long entryId;
+
+    @TableField("endId")
+    private Long endId;
 }

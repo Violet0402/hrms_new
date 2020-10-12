@@ -5,13 +5,10 @@ import lombok.Data;
 
 @Data
 public class EntryCreateDTO {
+    private Long id;
+    private String joinTime;
     private String name;
-    private String gender;
-    private Integer age;
-    private String education;
-    private String major;
-    private String post;
-    private Long department;
+    private String interviewTime;
     private Integer intershipSalary;
     private Integer officialSalary;
     private String isOfficial;

@@ -1,23 +1,44 @@
 <template>
     <div>
-
       <el-dialog title="编辑申请" :visible.sync="editVisible">
         <el-form :model="editData" ref="editData">
           <el-form-item
-            label="是否转正"
+            label="离职日期"
+            label-width="120px">
+            <div class="block">
+              <el-date-picker
+                v-model="editData.endTime"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          <el-form-item
+            label="姓名"
             label-width="120px"
-            prop="post"
+            prop="name"
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-select :disabled="eDisabled" v-model="editData.isOfficial" placeholder="请选择">
-              <el-option
-                v-for="item in eIsOfficials"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+            <el-input v-model="editData.name"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="是否自动离职"
+            label-width="120px"
+            prop="isAutoEnd"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.isAutoEnd"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="学历"
+            label-width="120px"
+            prop="isDispute"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="editData.isDispute"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -29,60 +50,88 @@
       <el-dialog title="新增需求" :visible.sync="addRequirement">
         <el-form :model="addForm" ref="addForm">
           <el-form-item
-            label="岗位"
-            label-width="120px"
-            prop="post"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="addForm.post"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="需求人数"
-            label-width="120px"
-            prop="nums"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="addForm.nums"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="岗位需求"
-            label-width="120px"
-            prop="requirement"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="addForm.requirement"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="学历"
-            label-width="120px"
-            prop="education"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="addForm.education"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="专业"
-            label-width="120px"
-            prop="major"
-            :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-            <el-input v-model="addForm.major"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="希望到岗日期"
+            label="离职日期"
             label-width="120px">
             <div class="block">
               <el-date-picker
-                v-model="addForm.hopeTime"
+                v-model="addForm.endTime"
                 type="date"
                 placeholder="选择日期">
               </el-date-picker>
             </div>
+          </el-form-item>
+          <el-form-item
+            label="姓名"
+            label-width="120px"
+            prop="name"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select @focus="selectNames" v-model="addForm.name" filterable placeholder="请选择">
+              <el-option
+                v-for="item in aNames"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="入职时间"
+            label-width="120px"
+            prop="interviewTime"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select @focus="selectJoinTime" v-model="addForm.joinTime" filterable placeholder="请选择">
+              <el-option
+                v-for="item in aJoinTimes"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="是否自动离职"
+            label-width="120px"
+            prop="isAutoEnd"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select v-model="addForm.isAutoEnd" placeholder="请选择">
+              <el-option
+                v-for="item in aIsOfficials"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="是否有人事纠纷"
+            label-width="120px"
+            prop="isDispute"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-select v-model="addForm.isDispute" placeholder="请选择">
+              <el-option
+                v-for="item in aIsOfficials"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="经济补偿金"
+            label-width="120px"
+            prop="compensation"
+            :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+            <el-input v-model="addForm.compensation"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -94,37 +143,17 @@
       <el-container>
         <el-header>
           <el-row>
-            <el-col :span="1"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="1"><div class="grid-content bg-purple">是否离职</div></el-col>
-            <el-col :span="2"><div class="grid-content bg-purple">
-              <el-select v-model="sIsEnd" placeholder="请选择">
-              <el-option
-                v-for="item in sIsEnds"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select></div></el-col>
-            <el-col :span="1"><div class="grid-content bg-purple"></div></el-col>
-            <el-col :span="1"><div class="grid-content bg-purple">是否正式</div></el-col>
-            <el-col :span="2"><div class="grid-content bg-purple">
-              <el-select v-model="sIsOfficial" placeholder="请选择">
-                <el-option
-                  v-for="item in sIsOfficials"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select></div></el-col>
-            <el-col :span="1"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><el-button @click="addRequirement = true" type="primary" plain round>新增需求</el-button></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
             <el-col :span="6"><div class="grid-content bg-purple">
               <div class="block">
                 <el-date-picker
                   v-model="value1"
                   type="daterange"
                   range-separator="至"
-                  start-placeholder="入职日期搜索"
-                  end-placeholder="入职日期搜索">
+                  start-placeholder="离职日期搜索"
+                  end-placeholder="离职日期搜索">
                 </el-date-picker>
               </div>
             </div></el-col>
@@ -146,66 +175,50 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-table-column
-              type="index"
-              width="35">
+            type="selection"
+            width="35">
+          </el-table-column>
+            <el-table-column
+            type="index"
+            width="35">
             </el-table-column>
             <el-table-column
               prop="name"
               label="姓名"
-              width="85">
-            </el-table-column>
-            <el-table-column
-              prop="gender"
-              label="性别"
-              width="50">
-            </el-table-column>
-            <el-table-column
-              prop="education"
-              label="学历"
-              width="55">
-            </el-table-column>
-            <el-table-column
-              prop="major"
-              label="专业"
-              width="130">
-            </el-table-column>
-            <el-table-column
-              prop="department"
-              label="部门"
-              width="140">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="post"
               label="岗位"
-              width="160">
+            width="140">
             </el-table-column>
             <el-table-column
-              prop="joinTime"
-              label="入职时间"
-              width="110">
+              prop="department"
+              label="部门"
+            width="150">
             </el-table-column>
             <el-table-column
-              prop="officialTime"
-              label="转正时间"
-              width="110">
+              prop="isAutoEnd"
+              label="是否自动离职"
+            width="80">
+            </el-table-column>
+            <el-table-column
+              prop="isDispute"
+              label="是否有人事纠纷"
+            width="80">
+            </el-table-column>
+            <el-table-column
+              prop="compensation"
+              label="经济补偿金"
+            width="100">
             </el-table-column>
             <el-table-column
               prop="endTime"
               label="离职时间"
-              width="110">
+              width="100">
             </el-table-column>
             <el-table-column
-              prop="isOfficial"
-              label="是否正式员工"
-              width="50">
-            </el-table-column>
-            <el-table-column
-              prop="isEnd"
-              label="是否离职"
-              width="50">
-            </el-table-column>
-            <el-table-column
-              label="转正操作"
+              label="操作"
               width="100"
               show-overflow-tooltip>
               <template slot-scope="scope">
@@ -235,63 +248,55 @@
 
 <script>
     export default {
-        name: "Employee",
+        name: "JobRequire",
         data() {
-            return {
-                eDisabled:false,
-                eIsOfficials:[{
-                    label:"是",
-                    value:'是'
-                },
-                    {
-                        label: "否",
-                        value: "否"
-                    }],
-                sIsOfficial:'',
-                sIsOfficials:[{
-                    label:'不限',
-                    value:''
-                },
-                    {
-                        label: "是",
-                        value: "是"
-                    },
-                    {
-                        label:"否",
-                        value:'否'
-                    }],
-                sIsEnds:[{
-                    label: '不限',
-                    value: ''
-                },
-                    {
-                        label: "是",
-                        value: "是"
-                    },
-                    {
-                        label:"否",
-                        value:'否'
-                    }],
-                sIsEnd:'',
-                total:"",
-                size:"",
-                currentPage:"1",
-                addRequirement:false,
-                editVisible:false,
+          return {
+              aIsOfficials:[{
+                  label:'是',
+                  value:"是"
+              },
+                  {
+                      label: "否",
+                      value: "否"
+                  }],
+              aJoinTimes:'',
+              total:"",
+              size:"",
+              currentPage:"1",
+              addRequirement:false,
+              editVisible:false,
 
-                searchInput:'',
-                editData:'',
+              searchInput:'',
+              editData:'',
 
-                value1:'',
-                tableData:[{
+              value1:'',
+              tableData:[{
 
-                }],
-                addForm:{
-                    post:"",nums:'',requirement:'', education:'',major:'',hopeTime:''
-                }
-            }
+              }],
+              addForm:{
+                  post:"",nums:'',requirement:'', education:'',major:'',hopeTime:'',name:'',joinTime:''
+                  ,isAutoEnd:'', isDispute:'', compensation:'',endTime:''
+              },
+              aNames:''
+          }
         },
         methods: {
+            selectJoinTime(){
+                let _this = this;
+                this.$http.get("http://localhost:9999/employee/getJoinTimes",{
+                    params:{
+                        name:_this.addForm.name
+                    }
+                }).then(res =>{
+                    _this.aJoinTimes = res.data.data
+                })
+            },
+            selectNames(){
+                let _this = this;
+                this.$http.get("http://localhost:9999/employee/getNames").then(res =>{
+                    _this.aNames = res.data.data
+                })
+            },
             deletePatch(){
                 this.$confirm('此操作将删除所选, 是否继续?', '提示', {
                     confirmButtonText: '确定',
@@ -322,7 +327,7 @@
             },
             editRequirement(){
                 let _this = this;
-                this.$http.put("http://localhost:9999/employee", this.editData).then(res =>{
+                this.$http.put("http://localhost:9999/end", this.editData).then(res =>{
                     if (res.data.code == 200){
                         _this.$message.success("编辑成功");
                         _this.editVisible = false;
@@ -340,21 +345,13 @@
                 if (this.searchInput == null){
                     this.search = '';
                 }
-                if (this.sIsEnd == null){
-                    this.sIsEnd = ''
-                }
-                if (this.sIsOfficial == null){
-                    this.sIsOfficial = ''
-                }
-                this.$http.get("http://localhost:9999/employee/findList",{
+                this.$http.get("http://localhost:9999/end/findList",{
                     params:{
                         currentPage:_this.currentPage,
                         size:_this.size,
                         startTime:_this.value1[0],
                         endTime: _this.value1[1],
-                        name:_this.searchInput,
-                        isEnd:_this.sIsEnd,
-                        isOfficial:_this.sIsOfficial
+                        post:_this.searchInput
                     }
                 }).then((res) =>{
                     _this.total = res.data.data.total
@@ -363,19 +360,18 @@
             },
             add(){
                 let _this = this;
-                this.$http.post("http://localhost:9999/requirement",this.$qs.stringify(this.addForm)).then((res)=>{
+                this.$http.post("http://localhost:9999/end",this.$qs.stringify(this.addForm)).then((res)=>{
                     if (res.data.code == 200){
                         _this.$message({
                             type:"success",
                             message:"增加成功"
                         });
                         this.addRequirement = false;
-                        this.addForm.post = '';
-                        this.addForm.nums = '';
-                        this.addForm.requirement = '';
-                        this.addForm.education = '';
-                        this.addForm.major = '';
-                        this.hopeTime = '';
+                        this.addForm.name = '';
+                        this.addForm.joinTime = '';
+                        this.addForm.isAutoEnd = '';
+                        this.addForm.isDispute = '';
+                        this.addForm.compensation = '';
                         _this.getList();
                     }else{
                         _this.$message({
@@ -388,12 +384,11 @@
             addConcel(){
                 this.$message("已取消");
                 this.addRequirement = false;
-                this.addForm.post = '';
-                this.addForm.nums = '';
-                this.addForm.requirement = '';
-                this.addForm.education = '';
-                this.addForm.major = '';
-                this.hopeTime = '';
+                this.addForm.name = '';
+                this.addForm.joinTime = '';
+                this.addForm.isAutoEnd = '';
+                this.addForm.isDispute = '';
+                this.addForm.compensation = '';
             },
             handleSizeChange(val) {
                 this.size = val;
@@ -416,11 +411,6 @@
                 this.multipleSelection = val;
             },
             handleEdit(index, row) {
-                if (row.isOfficial == '是'){
-                    this.eDisabled = true;
-                }else {
-                    this.eDisabled = false;
-                }
                 this.editVisible = true;
                 this.editData = row;
             },
@@ -433,8 +423,8 @@
                     let _this = this;
                     this.$http.delete("http://localhost:9999/requirement/"+row.id).then(res =>{
                         _this.$message({
-                            type: 'success',
-                            message: '删除成功!'
+                        type: 'success',
+                        message: '删除成功!'
                         });
                         _this.getList();
                     })
@@ -448,7 +438,7 @@
         },
         created() {
             let _this = this;
-            this.$http.get("http://localhost:9999/employee/findList").then((res) =>{
+            this.$http.get("http://localhost:9999/end/findList").then((res) =>{
                 _this.total = res.data.data.total
                 _this.tableData = res.data.data.records;
             })
@@ -457,20 +447,22 @@
 </script>
 
 <style scoped>
-  .el-header, .el-footer {
+  .el-header,footer{
     padding: 0 !important;
-    background-color: #B3C0D1;
+    background-color: #DCDFE6;
     color: #333;
     text-align: center;
     line-height: 60px;
   }
+
   .el-main {
-    background-color: #E9EEF3;
+    background-color: #B3C0D1;
     color: #333;
     text-align: center;
-    line-height: 160px;
+    line-height: 50px;
     height: 73vh;
   }
+
   .el-row {
     margin-bottom: 20px;
   &:last-child {

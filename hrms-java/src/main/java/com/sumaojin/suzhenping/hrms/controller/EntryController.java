@@ -4,14 +4,11 @@ package com.sumaojin.suzhenping.hrms.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.sumaojin.suzhenping.hrms.dto.EntryCreateDTO;
 import com.sumaojin.suzhenping.hrms.dto.EntryDTO;
+import com.sumaojin.suzhenping.hrms.dto.EntryEditDTO;
 import com.sumaojin.suzhenping.hrms.result.CommonResult;
 import com.sumaojin.suzhenping.hrms.service.IEntryService;
 import com.sumaojin.suzhenping.hrms.vm.EntryVM;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -53,6 +50,22 @@ public class EntryController {
     public CommonResult create(EntryCreateDTO dto){
         Boolean isSave = entryService.create(dto);
         if (isSave){
+            return new CommonResult(null);
+        }else {
+            return new CommonResult(444, "操作失败");
+        }
+    }
+
+    /**
+     * 编辑入职申请
+     * @param dto
+     * @return
+     */
+    @PostMapping(value = "/edit", produces = "application/json;charset=utf-8")
+    //@PutMapping(value = "", produces = "application/json;charset=utf-8")
+    public CommonResult edit(EntryEditDTO dto){
+        Boolean flag = entryService.editEntry(dto);
+        if (flag){
             return new CommonResult(null);
         }else {
             return new CommonResult(444, "操作失败");

@@ -11,7 +11,5 @@ import lombok.Data;
 public class DepartmentVM {
     private String label;
 
-    @JsonSerialize(using = LongJsonSerializer.class)
-    @JsonDeserialize(using = LongJsonDeserializer.class)
-    private Long value;
+    private String value;
 }

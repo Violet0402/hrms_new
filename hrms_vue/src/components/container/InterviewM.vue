@@ -316,8 +316,8 @@
                   v-model="value1"
                   type="daterange"
                   range-separator="至"
-                  start-placeholder="申请日期搜索"
-                  end-placeholder="申请日期搜索">
+                  start-placeholder="面试日期搜索"
+                  end-placeholder="面试日期搜索">
                 </el-date-picker>
               </div>
             </div></el-col>

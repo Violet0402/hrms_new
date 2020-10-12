@@ -69,7 +69,7 @@ public class RequirementServiceImpl extends ServiceImpl<RequirementMapper, Requi
         HttpSession session = request.getSession();
         Long userId = Long.parseLong((String) session.getAttribute("userId"));
         QueryWrapper<Requirement> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByAsc("createTime");
+        queryWrapper.orderByDesc("createTime");
         Long roleId = employeeMapper.getRoleId(userId);
         if (!roleId.equals(1L)){
             queryWrapper.eq("proposer", userId);

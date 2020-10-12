@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sumaojin.suzhenping.hrms.dto.InterviewCreateDTO;
 import com.sumaojin.suzhenping.hrms.dto.InterviewFind;
+import com.sumaojin.suzhenping.hrms.dto.InterviewTimeDTO;
 import com.sumaojin.suzhenping.hrms.entity.Department;
 import com.sumaojin.suzhenping.hrms.entity.Employee;
 import com.sumaojin.suzhenping.hrms.entity.Interview;
@@ -17,6 +18,8 @@ import com.sumaojin.suzhenping.hrms.service.IInterviewService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sumaojin.suzhenping.hrms.util.Utils;
 import com.sumaojin.suzhenping.hrms.vm.InterviewFindVM;
+import com.sumaojin.suzhenping.hrms.vm.InterviewTimeVM;
+import com.sumaojin.suzhenping.hrms.vm.NamesVM;
 import com.sumaojin.suzhenping.hrms.vm.RequirementVM;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -54,7 +57,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         Page<Interview> page = new Page<>(dto.getCurrentPage(), dto.getSize());
         Long userId = Long.parseLong((String)(request.getSession().getAttribute("userId")));
         QueryWrapper<Interview> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByAsc("interviewTime");
+        queryWrapper.orderByDesc("interviewTime");
         if (dto.getEndTime() != null && dto.getStartTime() != null){
             Timestamp startTime = Utils.stringToTimestap(dto.getStartTime());
             Timestamp endTime = Utils.stringToTimestap(dto.getEndTime());
@@ -104,5 +107,43 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         interview.setDepartmentId(departmentId);
         boolean isSave = save(interview);
         return isSave;
+    }
+
+    /**
+     * 获取名字
+     * @return
+     */
+    @Override
+    public CommonResult<List<NamesVM>> getNames() {
+        List<Interview> interviews = list(new QueryWrapper<Interview>().select("name").groupBy("name"));
+        ArrayList<NamesVM> vms = new ArrayList<>();
+        for(Interview i : interviews){
+            NamesVM vm = new NamesVM();
+            vm.setLabel(i.getName());
+            vm.setValue(i.getName());
+            vms.add(vm);
+        }
+        return new CommonResult<>(vms);
+    }
+
+    /**
+     * 获取面试时间
+     * @param dto
+     * @return
+     */
+    @Override
+    public CommonResult<List<InterviewTimeVM>> getInterviewTimes(InterviewTimeDTO dto) {
+        if (dto.getName() == null || dto.getName().length() == 0){
+            return new CommonResult<>(null);
+        }
+        List<Interview> interviews = list(new QueryWrapper<Interview>().select("interviewTime").eq("name", dto.getName()));
+        ArrayList<InterviewTimeVM> vms = new ArrayList<>();
+        for(Interview i : interviews){
+            InterviewTimeVM vm = new InterviewTimeVM();
+            vm.setLabel(Utils.timeToString(i.getInterviewTime()));
+            vm.setValue(Utils.timeToString(i.getInterviewTime()));
+            vms.add(vm);
+        }
+        return new CommonResult<>(vms);
     }
 }

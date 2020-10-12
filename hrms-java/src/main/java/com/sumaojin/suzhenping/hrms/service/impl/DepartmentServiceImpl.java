@@ -42,7 +42,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         for (Department d : departments){
             DepartmentVM vm = new DepartmentVM();
             vm.setLabel(d.getDepartment());
-            vm.setValue(d.getId());
+            vm.setValue(d.getDepartment());
             vms.add(vm);
         }
         return new CommonResult<>(vms);

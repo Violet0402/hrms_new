@@ -1,73 +1,19 @@
 <template>
   <div>
 
-    <el-dialog title="编辑申请" :visible.sync="editVisible">
+    <el-dialog title="编辑" :visible.sync="editVisible">
       <el-form :model="editData" ref="editData">
         <el-form-item
-          label="岗位"
-          label-width="120px"
-          prop="post"
-          :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-          <el-input v-model="editData.post"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="需求人数"
-          label-width="120px"
-          prop="nums"
-          :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-          <el-input v-model="editData.nums"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="岗位需求"
-          label-width="120px"
-          prop="requirement"
-          :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-          <el-input v-model="editData.requirement"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="学历"
-          label-width="120px"
-          prop="education"
-          :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-          <el-input v-model="editData.education"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="专业"
-          label-width="120px"
-          prop="major"
-          :rules="[
-            {required:true, message:'请输入内容', trigger:'blur'}
-          ]">
-          <el-input v-model="editData.major"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="希望到岗日期"
+          label="入职日期"
           label-width="120px">
           <div class="block">
             <el-date-picker
-              v-model="editData.hopeTime"
+              v-model="editData.joinTime"
               type="date"
               placeholder="选择日期">
             </el-date-picker>
           </div>
         </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editConcel">取 消</el-button>
-        <el-button type="primary" @click="editRequirement">确 定</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="新增需求" :visible.sync="addRequirement">
-      <el-form :model="addForm" ref="addForm">
         <el-form-item
           label="姓名"
           label-width="120px"
@@ -75,7 +21,7 @@
           :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-          <el-input v-model="addForm.name"></el-input>
+          <el-input v-model="editData.name"></el-input>
         </el-form-item>
         <el-form-item
           label="性别"
@@ -84,7 +30,7 @@
           :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-          <el-select v-model="addForm.gender" placeholder="请选择">
+          <el-select v-model="editData.gender" placeholder="请选择">
             <el-option
               v-for="item in genders"
               :key="item.value"
@@ -100,7 +46,7 @@
           :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-          <el-input v-model="addForm.age"></el-input>
+          <el-input v-model="editData.age"></el-input>
         </el-form-item>
         <el-form-item
           label="学历"
@@ -109,7 +55,7 @@
           :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-          <el-select v-model="addForm.education" placeholder="请选择">
+          <el-select v-model="editData.education" placeholder="请选择">
             <el-option
               v-for="item in educations"
               :key="item.value"
@@ -125,7 +71,7 @@
           :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-          <el-input v-model="addForm.major"></el-input>
+          <el-input v-model="editData.major"></el-input>
         </el-form-item>
         <el-form-item
           label="岗位"
@@ -134,7 +80,7 @@
           :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-          <el-input v-model="addForm.post"></el-input>
+          <el-input v-model="editData.post"></el-input>
         </el-form-item>
         <el-form-item
           label="部门"
@@ -143,9 +89,95 @@
           :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-          <el-select @focus="selectDepartment" v-model="addForm.department" filterable placeholder="请选择">
+          <el-select @focus="selectDepartment" v-model="editData.department" filterable placeholder="请选择">
             <el-option
               v-for="item in sDepartments"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="试用期工资"
+          label-width="120px"
+          prop="intershipSalary"
+          :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+          <el-input v-model="editData.intershipSalary"></el-input>
+        </el-form-item>
+        <el-form-item
+          label="转正工资"
+          label-width="120px"
+          prop="officialSalary"
+          :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+          <el-input v-model="editData.officialSalary"></el-input>
+        </el-form-item>
+        <el-form-item
+          label="是否正式员工"
+          label-width="120px"
+          prop="isOfficial"
+          :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+          <el-select v-model="editData.isOfficial" placeholder="请选择">
+            <el-option
+              v-for="item in aIsOfficials"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editConcel">取 消</el-button>
+        <el-button type="primary" @click="editRequirement">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="新增" :visible.sync="addRequirement">
+      <el-form :model="addForm" ref="addForm">
+        <el-form-item
+          label="入职日期"
+          label-width="120px">
+          <div class="block">
+            <el-date-picker
+              v-model="addForm.joinTime"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </div>
+        </el-form-item>
+        <el-form-item
+          label="姓名"
+          label-width="120px"
+          prop="name"
+          :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+          <el-select @focus="selectNames" v-model="addForm.name" filterable placeholder="请选择">
+            <el-option
+              v-for="item in aNames"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="面试时间"
+          label-width="120px"
+          prop="interviewTime"
+          :rules="[
+            {required:true, message:'请输入内容', trigger:'blur'}
+          ]">
+          <el-select @focus="selectInterviewTime" v-model="addForm.interviewTime" filterable placeholder="请选择">
+            <el-option
+              v-for="item in aInterviewTimes"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -171,7 +203,7 @@
           <el-input v-model="addForm.officialSalary"></el-input>
         </el-form-item>
         <el-form-item
-          label="是否转正"
+          label="是否正式员工"
           label-width="120px"
           prop="isOfficial"
           :rules="[
@@ -196,8 +228,8 @@
     <el-container>
       <el-header>
         <el-row>
-          <el-col :span="3"><div class="grid-content bg-purple"><el-button type="danger" plain round @click="deletePatch">批量删除</el-button></div></el-col>
-          <el-col :span="3"><div class="grid-content bg-purple"><el-button @click="addRequirement = true" type="primary" plain round>新增需求</el-button></div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
+          <el-col :span="3"><div class="grid-content bg-purple"><el-button @click="addRequirement = true" type="primary" plain round>新增</el-button></div></el-col>
           <el-col :span="3"><div class="grid-content bg-purple"></div></el-col>
           <el-col :span="6"><div class="grid-content bg-purple">
             <div class="block">
@@ -205,8 +237,8 @@
                 v-model="value1"
                 type="daterange"
                 range-separator="至"
-                start-placeholder="申请日期搜索"
-                end-placeholder="申请日期搜索">
+                start-placeholder="入职日期搜索"
+                end-placeholder="入职日期搜索">
               </el-date-picker>
             </div>
           </div></el-col>
@@ -227,11 +259,6 @@
           tooltip-effect="dark"
           style="width: 100%"
           @selection-change="handleSelectionChange">
-          <el-table-column
-            :height="100"
-            type="selection"
-            width="35">
-          </el-table-column>
           <el-table-column
             type="index"
             width="35">
@@ -281,30 +308,28 @@
             width="200">
             <el-table-column
             label="试用期工资"
+            prop="intershipSalary"
             width="100">
             </el-table-column>
             <el-table-column
             label="转正工资"
+            prop="officialSalary"
             width="100">
             </el-table-column>
           </el-table-column>
           <el-table-column
             prop="isOfficial"
-            label="是否转正"
+            label="是否正式员工"
             width="55">
           </el-table-column>
           <el-table-column
             label="操作"
-            width="200"
+            width="100"
             show-overflow-tooltip>
             <template slot-scope="scope">
               <el-button
                 size="medium"
                 @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button
-                size="medium"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -331,6 +356,8 @@
         name: "JoinManager",
         data() {
             return {
+                aInterviewTimes:'',
+                aNames:'',
                 genders:[{
                     label:'男',
                     value:'男'
@@ -383,16 +410,34 @@
 
                 }],
                 addForm:{
-                    name:'',gender:'',age:'',education:'',major:'',post:'',department:'',officialSalary:'',intershipSalary:'',isOfficial:''
+                    name:'',gender:'',age:'',education:'',major:'',post:'',department:'',officialSalary:'',intershipSalary:'',isOfficial:'',joinTime:'',
+                    interviewTime:''
                 }
             }
         },
         methods: {
+            selectInterviewTime(){
+                let _this = this;
+                this.$http.get("http://localhost:9999/interview/getInterviewTimes",{
+                    params:{
+                        name:_this.addForm.name
+                    }
+                }).then(res =>{
+                    _this.aInterviewTimes = res.data.data
+                })
+            },
+            selectNames(){
+                let _this = this;
+                this.$http.get("http://localhost:9999/interview/getNames").then(res =>{
+                    _this.aNames = res.data.data
+                })
+            },
             selectDepartment(){
                 let _this = this;
                 this.$http.get("http://localhost:9999/department/getDepartment").then(res =>{
                     _this.sDepartments = res.data.data
                 })
+
             },
             deletePatch(){
                 this.$confirm('此操作将删除所选, 是否继续?', '提示', {
@@ -424,7 +469,7 @@
             },
             editRequirement(){
                 let _this = this;
-                this.$http.put("http://localhost:9999/requirement", this.editData).then(res =>{
+                this.$http.post("http://localhost:9999/entry/edit", this.$qs.stringify(this.editData)).then(res =>{
                     if (res.data.code == 200){
                         _this.$message.success("编辑成功");
                         _this.editVisible = false;
@@ -468,6 +513,7 @@
                     officialSalary:'',intershipSalary:'',isOfficial:''
                 }*/
                         this.addRequirement = false;
+                        this.addForm.joinTime='';
                         this.addForm.name = '';
                         this.addForm.gender = '';
                         this.addForm.age = '';
@@ -478,6 +524,7 @@
                         this.addForm.officialSalary = '';
                         this.addForm.intershipSalary='';
                         this.addForm.isOfficial='';
+                        this.addForm.interviewTime='';
                         _this.getList();
                     }else{
                         _this.$message({
@@ -490,6 +537,7 @@
             addConcel(){
                 this.$message("已取消");
                 this.addRequirement = false;
+                this.addForm.joinTime='';
                 this.addForm.post = '';
                 this.addForm.nums = '';
                 this.addForm.requirement = '';
