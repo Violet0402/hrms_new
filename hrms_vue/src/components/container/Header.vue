@@ -12,7 +12,12 @@
               <h1 style="color: #DCDFE6">人资资源管理后台</h1>
             </div>
         </el-col>
-        <el-col :span="2" push="14"><div>
+        <el-col :span="2" push="12">
+          <div>
+            <h1 style="color: #DCDFE6" v-text="name"></h1>
+          </div>
+        </el-col>
+        <el-col :span="2" push="12"><div>
           <el-dropdown>
               <span class="el-dropdown-link">
                 <div style="margin-top: 10px; margin-right: 10px">
@@ -33,7 +38,8 @@
         name: "Header",
         data(){
             return{
-                fit:"fill"
+                fit:"fill",
+                name:"宿真平"
             }
         },
         methods:{
@@ -43,6 +49,12 @@
             this.$router.replace("/login");
           },
         },
+        created() {
+            let _this = this;
+            this.$http.get("http://localhost:9999/employee/name").then(res =>{
+                _this.name = res.data.data
+            })
+        }
     }
 </script>
 

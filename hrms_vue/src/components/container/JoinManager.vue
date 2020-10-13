@@ -619,35 +619,35 @@
             }
         },
       watch:{
-        newOfficialTime(val){
-          if (this.editData.isOfficial == "是"){
-            this.isDisabled=false;
-          }else{
-
-            this.isDisabled=true;
-          }
-        },
         newOfficialTimeA(val){
           if (this.addForm.isOfficial == "是"){
             this.isDisabledA=false;
           }else{
-
+            this.addForm.officialTime = '';
             this.isDisabledA=true;
           }
-        }
+        },
+          newOfficialTime(val){
+              if (this.editData.isOfficial == "是"){
+                  this.isDisabled=false;
+              }else{
+                  this.editData.officialTime = '';
+                  this.isDisabled=true;
+              }
+          }
       },
       computed:{
-        newOfficialTime(){
-          return this.editData.isOfficial
-        },
         newOfficialTimeA(){
           return this.addForm.isOfficial
-        }
+        },
+          newOfficialTime(){
+            return this.editData.isOfficial
+          }
       },
         created() {
             let _this = this;
             this.$http.get("http://localhost:9999/entry/findList").then((res) =>{
-                _this.total = res.data.data.total
+                _this.total = res.data.data.total;
                 _this.tableData = res.data.data.records;
             })
         }
@@ -657,7 +657,7 @@
 <style scoped>
   .el-header,footer{
     padding: 0 !important;
-    background-color: #DCDFE6;
+    background-color: #B3C0D1;
     color: #333;
     text-align: center;
     line-height: 60px;
@@ -681,13 +681,13 @@
     border-radius: 4px;
   }
   .bg-purple-dark {
-    background: #99a9bf;
+    background: #B3C0D1;
   }
   .bg-purple {
-    background: #d3dce6;
+    background: #B3C0D1;
   }
   .bg-purple-light {
-    background: #e5e9f2;
+    background: #B3C0D1;
   }
   .grid-content {
     border-radius: 4px;
@@ -695,6 +695,6 @@
   }
   .row-bg {
     padding: 10px 0;
-    background-color: #f9fafc;
+    background-color: #B3C0D1;
   }
 </style>

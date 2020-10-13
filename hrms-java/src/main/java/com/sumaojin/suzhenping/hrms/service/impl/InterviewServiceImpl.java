@@ -115,7 +115,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
      */
     @Override
     public CommonResult<List<NamesVM>> getNames() {
-        List<Interview> interviews = list(new QueryWrapper<Interview>().select("name").groupBy("name"));
+        List<Interview> interviews = list(new QueryWrapper<Interview>().select("name").groupBy("name").eq("stage","复试").eq("result","通过"));
         ArrayList<NamesVM> vms = new ArrayList<>();
         for(Interview i : interviews){
             NamesVM vm = new NamesVM();
@@ -136,7 +136,7 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
         if (dto.getName() == null || dto.getName().length() == 0){
             return new CommonResult<>(null);
         }
-        List<Interview> interviews = list(new QueryWrapper<Interview>().select("interviewTime").eq("name", dto.getName()));
+        List<Interview> interviews = list(new QueryWrapper<Interview>().select("interviewTime").eq("name", dto.getName()).eq("stage","复试").eq("result","通过"));
         ArrayList<InterviewTimeVM> vms = new ArrayList<>();
         for(Interview i : interviews){
             InterviewTimeVM vm = new InterviewTimeVM();

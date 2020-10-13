@@ -498,10 +498,10 @@
     line-height: 60px;
   }
   .el-main {
-    background-color: #E9EEF3;
+    background-color: #B3C0D1;
     color: #333;
     text-align: center;
-    line-height: 160px;
+    line-height: 50px;
     height: 73vh;
   }
   .el-row {
@@ -514,13 +514,13 @@
     border-radius: 4px;
   }
   .bg-purple-dark {
-    background: #99a9bf;
+    background: #B3C0D1;
   }
   .bg-purple {
-    background: #d3dce6;
+    background: #B3C0D1;
   }
   .bg-purple-light {
-    background: #e5e9f2;
+    background: #B3C0D1;
   }
   .grid-content {
     border-radius: 4px;
@@ -528,6 +528,6 @@
   }
   .row-bg {
     padding: 10px 0;
-    background-color: #f9fafc;
+    background-color: #B3C0D1;
   }
 </style>

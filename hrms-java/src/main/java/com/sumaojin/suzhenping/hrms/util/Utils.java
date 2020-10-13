@@ -35,4 +35,34 @@ public  class Utils {
         }
         return null;
     }
+
+    public static Timestamp stringToYearStart(String timeStr){
+        try {
+            String time = timeStr + "-1-1";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = simpleDateFormat.parse(time);
+            return new Timestamp(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Timestamp stringToYearEnd(String timeStr){
+        try {
+            String time = timeStr + "-12-31";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = simpleDateFormat.parse(time);
+            return new Timestamp(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String timeToYear(Timestamp time){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+        String format = simpleDateFormat.format(time);
+        return format;
+    }
 }

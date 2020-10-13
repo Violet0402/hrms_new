@@ -127,7 +127,7 @@
             :rules="[
             {required:true, message:'请输入内容', trigger:'blur'}
           ]">
-            <el-select v-model="editData.isStore" placeholder="请选择">
+            <el-select v-model="editData.isStore" :disabled="eDisabled" placeholder="请选择">
               <el-option
                 v-for="item in isStores"
                 :key="item.value"
@@ -444,7 +444,7 @@
         name: "InterviewM",
         data() {
             return {
-
+                eDisabled:true,
                 isDisabled:true,
                 results:[{
                     label:'通过',
@@ -534,6 +534,21 @@
                 }
             },
 
+        },
+        computed:{
+            newEdisabled(){
+                return this.editData.result
+            }
+        },
+        watch:{
+            newEdisabled(val){
+                if (this.editData.result == "通过"){
+                    this.editData.isStore = '';
+                    this.eDisabled = true;
+                }else {
+                    this.eDisabled = false;
+                }
+            }
         },
         methods: {
             deletePatch(){
@@ -674,9 +689,11 @@
                 this.multipleSelection = val;
             },
             handleEdit(index, row) {
+                if (row.result == "不通过"){
+                    this.eDisabled = false;
+                }
                 this.editVisible = true;
                 this.editData = row;
-                console.log(this.editData)
             },
             handleDelete(index, row) {
                 this.$confirm('此操作将删除该申请, 是否继续?', '提示', {
@@ -713,7 +730,7 @@
 <style scoped>
   .el-header,footer{
     padding: 0 !important;
-    background-color: #DCDFE6;
+    background-color: #B3C0D1;
     color: #333;
     text-align: center;
     line-height: 60px;
@@ -737,13 +754,13 @@
     border-radius: 4px;
   }
   .bg-purple-dark {
-    background: #99a9bf;
+    background: #B3C0D1;
   }
   .bg-purple {
-    background: #d3dce6;
+    background: #B3C0D1;
   }
   .bg-purple-light {
-    background: #e5e9f2;
+    background: #B3C0D1;
   }
   .grid-content {
     border-radius: 4px;
@@ -751,6 +768,6 @@
   }
   .row-bg {
     padding: 10px 0;
-    background-color: #f9fafc;
+    background-color: #B3C0D1;
   }
 </style>

@@ -49,12 +49,34 @@ CREATE TABLE `employee` (
   `isEnd` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL,
   `isOfficial` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL,
   `post` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
+  `entryId` bigint(64) DEFAULT NULL,
+  `endId` bigint(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1314867575790047235 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1315841168095055874 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `employee` */
 
-insert  into `employee`(`id`,`name`,`departmentId`,`joinTime`,`officialTime`,`endTime`,`gender`,`roleId`,`education`,`major`,`salary`,`isEnd`,`isOfficial`,`post`) values (1,'susu',1,'2020-09-01','2020-09-15',NULL,'女',1,'本科','工商管理',10000,'否','是','人力资源'),(2,'shu',2,'2020-09-01','2020-10-10',NULL,'男',2,'本科','计算机',10000,'否','是','java开发');
+insert  into `employee`(`id`,`name`,`departmentId`,`joinTime`,`officialTime`,`endTime`,`gender`,`roleId`,`education`,`major`,`salary`,`isEnd`,`isOfficial`,`post`,`entryId`,`endId`) values (1,'susu',1,'2020-09-01','2020-09-15',NULL,'女',1,'本科','工商管理',10000,'否','是','人力资源',NULL,NULL),(2,'shu',2,'2020-09-01','2020-10-10',NULL,'男',2,'本科','计算机',10000,'否','是','java开发',NULL,NULL),(3,'shu2',2,'2020-09-01','2020-09-30',NULL,'男',2,'本科','计算机',10000,'否','是','测试',NULL,NULL),(1315841054735601666,'宿宿',1,'2020-10-30','2020-10-31',NULL,'女',NULL,'本科','工商管理',11000,'否','是','hrbp',1315841054676881409,NULL),(1315841168095055873,'苏',2,'2020-10-31','2020-10-31','2020-11-01','男',NULL,'硕士','计算机',16000,'是','是','java开发',1315841168057307137,1315841663069065218);
+
+/*Table structure for table `end` */
+
+DROP TABLE IF EXISTS `end`;
+
+CREATE TABLE `end` (
+  `id` bigint(64) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
+  `post` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
+  `departmentId` bigint(64) DEFAULT NULL,
+  `isAutoEnd` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL,
+  `isDispute` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL,
+  `endTime` date DEFAULT NULL,
+  `compensation` int(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1315841663069065219 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+/*Data for the table `end` */
+
+insert  into `end`(`id`,`name`,`post`,`departmentId`,`isAutoEnd`,`isDispute`,`endTime`,`compensation`) values (1315841663069065218,'苏','java开发',2,'是','否','2020-11-01',0);
 
 /*Table structure for table `entry` */
 
@@ -73,10 +95,13 @@ CREATE TABLE `entry` (
   `intershipSalary` int(20) DEFAULT NULL,
   `officialSalary` int(20) DEFAULT NULL,
   `isOfficial` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
+  `interviewTime` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1314867575790047235 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1315841168057307138 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `entry` */
+
+insert  into `entry`(`id`,`joinTime`,`name`,`gender`,`age`,`education`,`major`,`post`,`departmentId`,`intershipSalary`,`officialSalary`,`isOfficial`,`interviewTime`) values (1315841054676881409,'2020-10-30','宿宿','女',20,'本科','工商管理','hrbp',1,1000,11000,'否','2020-10-15'),(1315841168057307137,'2020-10-31','苏','男',22,'硕士','计算机','java开发',2,0,16000,'是','2020-10-17');
 
 /*Table structure for table `identity` */
 
@@ -88,11 +113,11 @@ CREATE TABLE `identity` (
   `password` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
   `uid` int(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `identity` */
 
-insert  into `identity`(`id`,`username`,`password`,`uid`) values (1,'admin','123456',1),(2,'normal','123456',2);
+insert  into `identity`(`id`,`username`,`password`,`uid`) values (1,'admin','123456',1),(2,'normal','123456',2),(3,'normal1','123456',3);
 
 /*Table structure for table `interview` */
 
@@ -113,11 +138,11 @@ CREATE TABLE `interview` (
   `major` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
   `result` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1314495974909214723 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1315836094807605250 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `interview` */
 
-insert  into `interview`(`id`,`interviewTime`,`name`,`gender`,`age`,`job`,`departmentId`,`stage`,`isStore`,`assess`,`education`,`major`,`result`) values (1,'2020-10-10','张三','男',18,'java开发',2,'复试','否','好','本科','计算机','通过'),(1314481890516037633,'2020-10-15','苏','男',23,'java开发',2,'复试','是','好','硕士','计算机','通过'),(1314487003733372930,'2020-10-07','22','男',2,'java高级',2,'初试','否','22','本科','22','通过'),(1314495974909214722,'2020-10-12','666','男',555,'hrbp',1,'初试','是','666','本科','555','通过');
+insert  into `interview`(`id`,`interviewTime`,`name`,`gender`,`age`,`job`,`departmentId`,`stage`,`isStore`,`assess`,`education`,`major`,`result`) values (1315835610617151490,'2020-10-14','宿宿','女',20,'hrbp',1,'初试','','好看','本科','工商管理','通过'),(1315835968223510530,'2020-10-15','宿宿','女',20,'hrbp',1,'复试','','表现好','本科','工商管理','通过'),(1315836094807605249,'2020-10-17','苏','男',22,'java开发',2,'复试','','好','硕士','计算机','通过');
 
 /*Table structure for table `menu` */
 
@@ -130,11 +155,11 @@ CREATE TABLE `menu` (
   `style` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
   `permission` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`menuName`,`router`,`style`,`permission`) values (1,'首页','index','el-icon-s-home',2),(2,'岗位需求','jobRequire','el-icon-circle-plus',1),(3,'面试管理','interviewM','el-icon-reading',5),(4,'入职管理','joinManager','el-icon-box',5),(5,'员工信息','employee','el-icon-user',5);
+insert  into `menu`(`id`,`menuName`,`router`,`style`,`permission`) values (1,'首页','index','el-icon-s-home',2),(2,'岗位需求','jobRequire','el-icon-circle-plus',1),(3,'面试管理','interviewM','el-icon-reading',5),(4,'入职管理','joinManager','el-icon-box',5),(5,'员工信息','employee','el-icon-user',5),(6,'离职管理','endManager','el-icon-s-promotion',5);
 
 /*Table structure for table `requirement` */
 
@@ -152,11 +177,11 @@ CREATE TABLE `requirement` (
   `createTime` date DEFAULT NULL,
   `nums` int(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1314495836631400450 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1315834912454221826 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `requirement` */
 
-insert  into `requirement`(`id`,`departmentId`,`proposer`,`post`,`requirement`,`education`,`major`,`hopeTime`,`createTime`,`nums`) values (1,2,2,'java开发','技术好','本科','计算机','2020-09-30','2020-09-01',10),(2,2,2,'java高级','技术特别好','本科','计算机','2020-09-30','2020-09-01',5),(1310518752917688321,1,1,'人力资源','人好看','不限','不限','2020-09-30','2020-09-28',10),(1310520128741601281,2,2,'测试','不限','不限','不限','2020-10-23','2020-09-28',60),(1310520408677838849,1,1,'人力资源培训方向','人必须好看','不限','不限','2020-09-28','2020-09-28',1),(1314495836631400449,1,1,'hrbp','能力强','本科','不限','2020-10-08','2020-10-09',1);
+insert  into `requirement`(`id`,`departmentId`,`proposer`,`post`,`requirement`,`education`,`major`,`hopeTime`,`createTime`,`nums`) values (1315834104572551169,1,1,'hrbp','人好看','本科以上','工商管理','2020-10-31','2020-10-13',1),(1315834334424604674,2,2,'java开发','能力强','本科以上','计算机','2020-10-30','2020-10-13',2),(1315834912454221825,2,3,'测试','吃苦耐劳','本科以上','计算机','2020-10-29','2020-10-13',2);
 
 /*Table structure for table `role` */
 

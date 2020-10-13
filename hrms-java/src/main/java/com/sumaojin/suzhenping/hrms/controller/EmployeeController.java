@@ -1,6 +1,7 @@
 package com.sumaojin.suzhenping.hrms.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.sumaojin.suzhenping.hrms.dto.EmployeeDTO;
@@ -87,5 +88,16 @@ public class EmployeeController {
     @GetMapping("/getJoinTimes")
     public CommonResult<List<EmployeeNamesVM>> getJoinTimes(JoinTimeDTO dto){
         return employeeService.getJoinTimes(dto);
+    }
+
+    /**
+     * 获取用户名
+     * @return
+     */
+    @GetMapping("/name")
+    public CommonResult<String> getName(HttpServletRequest request){
+        long userId = Long.parseLong((String) request.getSession().getAttribute("userId"));
+        Employee employee = employeeService.getOne(new QueryWrapper<Employee>().eq("id", userId));
+        return new CommonResult<>(employee.getName());
     }
 }

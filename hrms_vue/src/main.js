@@ -7,10 +7,12 @@ import App from './App'
 import router from './router'
 import axios from "axios";
 import qs from "qs";
+import echarts from "echarts"
 
+Vue.prototype.$echarts = echarts;
 Vue.prototype.$qs=qs;
 Vue.prototype.$http=axios;
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
 

@@ -102,7 +102,7 @@ public class EntryServiceImpl extends ServiceImpl<EntryMapper, Entry> implements
         entry.setJoinTime(Utils.stringToTimestap(dto.getJoinTime()));
         entry.setPost(interview.getJob());
         entry.setIntershipSalary(dto.getIntershipSalary());
-        entry.setOfficialSalary(dto.getIntershipSalary());
+        entry.setOfficialSalary(dto.getOfficialSalary());
         entry.setInterviewTime(interview.getInterviewTime());
         entry.setIsOfficial(dto.getIsOfficial());
         Entry one = getOne(new QueryWrapper<Entry>().eq("name", entry.getName()).eq("interviewTime", interview.getInterviewTime()));
@@ -118,7 +118,7 @@ public class EntryServiceImpl extends ServiceImpl<EntryMapper, Entry> implements
         employee.setEntryId(entry.getId());
         employee.setId(null);
         if (entry.getIsOfficial().equals("是")){
-            employee.setOfficialTime(new Timestamp(new Date().getTime()));
+            employee.setOfficialTime(Utils.stringToTimestap(dto.getOfficialTime()));
         }
         boolean isSaveEmployee = employeeService.save(employee);
         if (isSaveEmployee && isSaveEntry){
@@ -150,7 +150,7 @@ public class EntryServiceImpl extends ServiceImpl<EntryMapper, Entry> implements
         BeanUtils.copyProperties(entry, employee);
         employee.setSalary(entry.getOfficialSalary());
         if (entry.getIsOfficial().equals("是")){
-            employee.setOfficialTime(new Timestamp(new Date().getTime()));
+            employee.setOfficialTime(Utils.stringToTimestap(dto.getOfficialTime()));
         }
         boolean isUpdateEmployee = employeeService.update(employee, new UpdateWrapper<Employee>().eq("entryId", dto.getId()));
         if (isUpdateEmployee && isUpdateEntry){

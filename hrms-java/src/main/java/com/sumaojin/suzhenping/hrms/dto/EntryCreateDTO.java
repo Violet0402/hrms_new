@@ -12,4 +12,5 @@ public class EntryCreateDTO {
     private Integer intershipSalary;
     private Integer officialSalary;
     private String isOfficial;
+    private String officialTime;
 }
