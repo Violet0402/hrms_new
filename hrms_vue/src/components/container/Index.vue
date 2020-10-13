@@ -4,7 +4,7 @@
         <el-header>
           <el-row>
             <el-col :span="14"><div class="grid-content bg-purple"><span style="font-size: 20px">年度入职/离职率统计图</span></div></el-col>
-            <el-col :span="2"><div class="grid-content bg-purple"><span style="float: right">搜索年度数据：</span></div></el-col>
+            <el-col :span="2"><div class="grid-content bg-purple"><span style="float: right">搜索数据：</span></div></el-col>
             <el-col :span="5"><div class="grid-content bg-purple">
               <el-date-picker
                 style="width: 300px"
@@ -57,7 +57,18 @@
         },
         methods:{
             getList(){
-                  
+                let _this = this;
+                if (this.year == null){
+                  this.year = ''
+                };
+                this.$http.get("http://localhost:9999/monitor/data",{
+                  params:{
+                    year:this.year
+                  }
+                }).then(res =>{
+                  _this.data = res.data.data;
+                  this.drawLine(_this.category,_this.data);
+                })
             },
             drawLine(category,data){
 

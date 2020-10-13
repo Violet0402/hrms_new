@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate - MySQL GUI v8.2 
-MySQL - 5.7.25 : Database - hrms
+SQLyog v10.2 
+MySQL - 5.5.27 : Database - hrms
 *********************************************************************
 */
 
@@ -52,11 +52,11 @@ CREATE TABLE `employee` (
   `entryId` bigint(64) DEFAULT NULL,
   `endId` bigint(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1315841168095055874 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1316026895908773890 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `employee` */
 
-insert  into `employee`(`id`,`name`,`departmentId`,`joinTime`,`officialTime`,`endTime`,`gender`,`roleId`,`education`,`major`,`salary`,`isEnd`,`isOfficial`,`post`,`entryId`,`endId`) values (1,'susu',1,'2020-09-01','2020-09-15',NULL,'女',1,'本科','工商管理',10000,'否','是','人力资源',NULL,NULL),(2,'shu',2,'2020-09-01','2020-10-10',NULL,'男',2,'本科','计算机',10000,'否','是','java开发',NULL,NULL),(3,'shu2',2,'2020-09-01','2020-09-30',NULL,'男',2,'本科','计算机',10000,'否','是','测试',NULL,NULL),(1315841054735601666,'宿宿',1,'2020-10-30','2020-10-31',NULL,'女',NULL,'本科','工商管理',11000,'否','是','hrbp',1315841054676881409,NULL),(1315841168095055873,'苏',2,'2020-10-31','2020-10-31','2020-11-01','男',NULL,'硕士','计算机',16000,'是','是','java开发',1315841168057307137,1315841663069065218);
+insert  into `employee`(`id`,`name`,`departmentId`,`joinTime`,`officialTime`,`endTime`,`gender`,`roleId`,`education`,`major`,`salary`,`isEnd`,`isOfficial`,`post`,`entryId`,`endId`) values (1,'susu',1,'2020-09-01','2020-09-15',NULL,'女',1,'本科','工商管理',10000,'否','是','人力资源',NULL,NULL),(2,'shu',2,'2020-09-01','2020-10-10',NULL,'男',2,'本科','计算机',10000,'否','是','java开发',NULL,NULL),(3,'shu2',2,'2020-09-01','2020-09-30',NULL,'男',2,'本科','计算机',10000,'否','是','测试',NULL,NULL),(1315841054735601666,'宿宿',1,'2020-10-30','2020-10-31',NULL,'女',NULL,'本科','工商管理',11000,'否','是','hrbp',1315841054676881409,NULL),(1315841168095055873,'苏',2,'2020-10-31','2020-10-31','2020-11-01','男',NULL,'硕士','计算机',16000,'是','是','java开发',1315841168057307137,1315841663069065218),(1316026895908773889,'测试通过',2,'2020-11-28','2020-11-30',NULL,'男',NULL,'本科','11',1,'否','是','测试',1316026895862636546,NULL);
 
 /*Table structure for table `end` */
 
@@ -97,11 +97,11 @@ CREATE TABLE `entry` (
   `isOfficial` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
   `interviewTime` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1315841168057307138 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1316026895862636547 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `entry` */
 
-insert  into `entry`(`id`,`joinTime`,`name`,`gender`,`age`,`education`,`major`,`post`,`departmentId`,`intershipSalary`,`officialSalary`,`isOfficial`,`interviewTime`) values (1315841054676881409,'2020-10-30','宿宿','女',20,'本科','工商管理','hrbp',1,1000,11000,'否','2020-10-15'),(1315841168057307137,'2020-10-31','苏','男',22,'硕士','计算机','java开发',2,0,16000,'是','2020-10-17');
+insert  into `entry`(`id`,`joinTime`,`name`,`gender`,`age`,`education`,`major`,`post`,`departmentId`,`intershipSalary`,`officialSalary`,`isOfficial`,`interviewTime`) values (1315841054676881409,'2020-10-30','宿宿','女',20,'本科','工商管理','hrbp',1,1000,11000,'否','2020-10-15'),(1315841168057307137,'2020-10-31','苏','男',22,'硕士','计算机','java开发',2,0,16000,'是','2020-10-17'),(1316026895862636546,'2020-11-28','测试通过','男',11,'本科','11','测试',2,1,1,'是','2020-11-20');
 
 /*Table structure for table `identity` */
 
@@ -138,11 +138,11 @@ CREATE TABLE `interview` (
   `major` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
   `result` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1315836094807605250 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1316026781022593026 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Data for the table `interview` */
 
-insert  into `interview`(`id`,`interviewTime`,`name`,`gender`,`age`,`job`,`departmentId`,`stage`,`isStore`,`assess`,`education`,`major`,`result`) values (1315835610617151490,'2020-10-14','宿宿','女',20,'hrbp',1,'初试','','好看','本科','工商管理','通过'),(1315835968223510530,'2020-10-15','宿宿','女',20,'hrbp',1,'复试','','表现好','本科','工商管理','通过'),(1315836094807605249,'2020-10-17','苏','男',22,'java开发',2,'复试','','好','硕士','计算机','通过');
+insert  into `interview`(`id`,`interviewTime`,`name`,`gender`,`age`,`job`,`departmentId`,`stage`,`isStore`,`assess`,`education`,`major`,`result`) values (1315835968223510530,'2020-10-15','宿宿','女',20,'hrbp',1,'复试','','表现好','本科','工商管理','通过'),(1315836094807605249,'2020-10-17','苏','男',22,'java开发',2,'复试','','好','硕士','计算机','通过'),(1316026213168357378,'2020-10-16','张三','男',11,'java开发',2,'初试','','好','硕士','11','不通过'),(1316026589485506562,'2020-11-05','测试','女',11,'测试',2,'初试','','1','硕士','12','不通过'),(1316026781022593025,'2020-11-20','测试通过','男',11,'测试',2,'复试','','111','本科','11','通过');
 
 /*Table structure for table `menu` */
 
