@@ -10,6 +10,7 @@
                 style="width: 300px"
               v-model="year"
               type="year"
+                value-format="yyyy"
               placeholder="选择年">
             </el-date-picker></div></el-col>
             <el-col :span="3"><div class="grid-content bg-purple"><el-button type="primary" round @click="getList">搜索</el-button></div></el-col>

@@ -10,7 +10,10 @@ import com.sumaojin.suzhenping.hrms.vm.MonitorVM;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,8 +49,9 @@ public class MonitorService implements IMonitorService {
         List<Double> rRate = new ArrayList<>();
         if (entrys == null || entrys.size() == 0){
             //没查到入职情况
-            rRate.add(0.0);rRate.add(0.0);rRate.add(0.0);rRate.add(0.0);rRate.add(0.0);rRate.add(0.0);
-            rRate.add(0.0);rRate.add(0.0);rRate.add(0.0);rRate.add(0.0);rRate.add(0.0);rRate.add(0.0);
+            for(int i = 0; i < 12; i++){
+                rRate.add(0.0);
+            }
         }else {
             //查到入职情况
             rRate = getrRate(entrys, interviews, dto.getYear());
@@ -63,8 +67,9 @@ public class MonitorService implements IMonitorService {
         System.out.println(employees);
         List<Double> lRate = new ArrayList<>();
         if (ends == null || ends.size() == 0){
-            lRate.add(0.0);lRate.add(0.0);lRate.add(0.0);lRate.add(0.0);lRate.add(0.0);lRate.add(0.0);
-            lRate.add(0.0);lRate.add(0.0);lRate.add(0.0);lRate.add(0.0);lRate.add(0.0);lRate.add(0.0);
+            for(int i = 0; i < 12; i++){
+                lRate.add(0.0);
+            }
         }else {
             lRate = getlRate(ends, employees, dto.getYear());
         }
@@ -99,7 +104,10 @@ public class MonitorService implements IMonitorService {
                 continue;
             }
             Double v = (endMap.get(i + "") / 1.0) / employeeSize;
-            lRetes.add(v);
+            BigDecimal bigDecimal = new BigDecimal(v);
+            BigDecimal bigDecimal1 = bigDecimal.setScale(2, RoundingMode.HALF_UP);
+            double v1 = bigDecimal1.doubleValue();
+            lRetes.add(v1);
         }
         return lRetes;
     }
@@ -131,7 +139,10 @@ public class MonitorService implements IMonitorService {
                 continue;
             }
             Double v = (entryMap.get(i + "") / 1.0) / interviewMap.get(i + "");
-            rRates.add(v);
+            BigDecimal bigDecimal = new BigDecimal(v);
+            BigDecimal bigDecimal1 = bigDecimal.setScale(2, RoundingMode.HALF_UP);
+            double v1 = bigDecimal1.doubleValue();
+            rRates.add(v1);
         }
         return rRates;
     }

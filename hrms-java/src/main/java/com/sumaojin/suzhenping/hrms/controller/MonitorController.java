@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +29,7 @@ public class MonitorController {
      * @return
      */
     @GetMapping("/data")
-    public CommonResult<List<MonitorVM>> getData(MonitorDTO dto){
+    public CommonResult<List<MonitorVM>> getData(MonitorDTO dto) throws ParseException {
         if (dto.getYear() == null || dto.getYear().length() == 0){
             dto.setYear(Utils.timeToYear(new Timestamp(new Date().getTime())));
         }
