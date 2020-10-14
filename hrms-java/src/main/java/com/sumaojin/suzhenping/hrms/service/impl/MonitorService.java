@@ -38,9 +38,7 @@ public class MonitorService implements IMonitorService {
         ArrayList<MonitorVM> vms = new ArrayList<>();
         Timestamp startTime = Utils.stringToYearStart(dto.getYear());
         Timestamp endTime = Utils.stringToYearEnd(dto.getYear());
-        System.out.println(dto.getYear());
-        System.out.println(startTime);
-        System.out.println(endTime);
+
 
         //入职率
         List<Entry> entrys = entryService.list(new QueryWrapper<Entry>().select("joinTime", "name", "gender", "age", "major").groupBy("joinTime", "name", "gender", "age", "major").le("joinTime", endTime).ge("joinTime", startTime));
@@ -64,7 +62,6 @@ public class MonitorService implements IMonitorService {
         //离职率
         List<End> ends = endService.list(new QueryWrapper<End>().select("name", "post", "departmentId", "endTime").groupBy("name", "post", "departmentId", "endTime").ge("endTime",startTime).le("endTime",endTime));
         List<Employee> employees = employeeService.list(new QueryWrapper<Employee>().select("name", "departmentId", "joinTime", "gender", "post").groupBy("name", "departmentId", "joinTime", "gender", "post"));
-        System.out.println(employees);
         List<Double> lRate = new ArrayList<>();
         if (ends == null || ends.size() == 0){
             for(int i = 0; i < 12; i++){

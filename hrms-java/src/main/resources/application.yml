@@ -20,16 +20,17 @@ server:
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
 
-sumaojin:
-  jwt:
-    SECRET: f4e2e52034348f86b67cde581c0f9eb5
-    EXPIRE: 604800
-    HEADER: Authorization
-logging:
-  level:
-    com:
-      sumaojin:
-        suzhenping:
-          hrms:
-            mapper: DEBUG
+#sumaojin:
+#  jwt:
+#    SECRET: f4e2e52034348f86b67cde581c0f9eb5
+#    EXPIRE: 604800
+#    HEADER: Authorization
+
+#logging:
+#  level:
+#    com:
+#      sumaojin:
+#        suzhenping:
+#          hrms:
+#            mapper: DEBUG
 
